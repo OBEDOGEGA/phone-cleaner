@@ -1,0 +1,133 @@
+package com.smartcleaner.pro.presentation.viewmodel
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.smartcleaner.pro.domain.model.JunkItem
+import com.smartcleaner.pro.domain.usecase.ICleanUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class CleanerViewModel @Inject constructor(
+    private val cleanUseCase: ICleanUseCase
+) : ViewModel() {
+
+    private val _scanProgress = MutableLiveData<Int>()
+    val scanProgress: LiveData<Int> = _scanProgress
+
+    private val _isScanning = MutableLiveData<Boolean>()
+    val isScanning: LiveData<Boolean> = _isScanning
+
+    private val _junkItems = MutableStateFlow<List<JunkItem>>(emptyList())
+    val junkItems: StateFlow<List<JunkItem>> = _junkItems
+
+    private val _totalJunkSize = MutableLiveData<Long>()
+    val totalJunkSize: LiveData<Long> = _totalJunkSize
+
+    private val _isCleaning = MutableLiveData<Boolean>()
+    val isCleaning: LiveData<Boolean> = _isCleaning
+
+    private val _cleanProgress = MutableLiveData<Int>()
+    val cleanProgress: LiveData<Int> = _cleanProgress
+
+    private val _spaceSaved = MutableLiveData<Long>()
+    val spaceSaved: LiveData<Long> = _spaceSaved
+
+    private val _cleanTime = MutableLiveData<Long>()
+    val cleanTime: LiveData<Long> = _cleanTime
+
+    private var scanJob: Job? = null
+    private var cleanJob: Job? = null
+
+    fun startScanning() {
+        if (scanJob?.isActive == true) return
+
+        scanJob = viewModelScope.launch {
+            _isScanning.value = true
+            _scanProgress.value = 0
+
+            // Simulate scanning progress
+            for (i in 0..100 step 10) {
+                _scanProgress.value = i
+                delay(200)
+            }
+
+            // Get actual junk items
+            cleanUseCase.scanForJunk().collect { items ->
+                _junkItems.value = items
+                val totalSize = items.sumOf { it.size }
+                _totalJunkSize.value = totalSize
+            }
+
+            _scanProgress.value = 100
+            _isScanning.value = false
+        }
+    }
+
+    fun stopScanning() {
+        scanJob?.cancel()
+        _isScanning.value = false
+    }
+
+    fun startCleaning(selectedItems: List<JunkItem>) {
+        if (cleanJob?.isActive == true) return
+
+        cleanJob = viewModelScope.launch {
+            _isCleaning.value = true
+            _cleanProgress.value = 0
+
+            val startTime = System.currentTimeMillis()
+
+            // Simulate cleaning progress
+            for (i in 0..90 step 10) {
+                _cleanProgress.value = i
+                delay(300)
+            }
+
+            // Perform actual cleaning
+            val cleanedSize = cleanUseCase.cleanJunk(selectedItems)
+            _spaceSaved.value = cleanedSize
+
+            val endTime = System.currentTimeMillis()
+            _cleanTime.value = endTime - startTime
+
+            _cleanProgress.value = 100
+            _isCleaning.value = false
+        }
+    }
+
+    fun stopCleaning() {
+        cleanJob?.cancel()
+        _isCleaning.value = false
+    }
+
+    fun updateJunkItemSelection(item: JunkItem, isSelected: Boolean) {
+        val currentItems = _junkItems.value.toMutableList()
+        val index = currentItems.indexOfFirst { it.file.absolutePath == item.file.absolutePath }
+        if (index != -1) {
+            currentItems[index] = item.copy(isSelected = isSelected)
+            _junkItems.value = currentItems
+        }
+    }
+
+    fun getSelectedItems(): List<JunkItem> {
+        return _junkItems.value.filter { it.isSelected }
+    }
+
+    fun getTotalSelectedSize(): Long {
+        return getSelectedItems().sumOf { it.size }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        scanJob?.cancel()
+        cleanJob?.cancel()
+    }
+}

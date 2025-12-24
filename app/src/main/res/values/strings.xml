@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">SMART CLEANER PRO</string>
+
+    <!-- AdMob Ad Unit IDs -->
+    <string name="admob_app_id">ca-app-pub-9404247994579655~5908465971</string>
+    <string name="admob_banner_ad_unit_id">ca-app-pub-9404247994579655/5281231275</string>
+    <string name="admob_interstitial_ad_unit_id">ca-app-pub-9404247994579655/2932617148</string>
+    <string name="admob_rewarded_interstitial_ad_unit_id">ca-app-pub-9404247994579655/7492461642</string>
+    <string name="admob_rewarded_ad_unit_id">ca-app-pub-9404247994579655/4866298305</string>
+    <string name="admob_native_ad_unit_id">ca-app-pub-9404247994579655/3553216639</string>
+    <string name="admob_app_open_ad_unit_id">ca-app-pub-9404247994579655/3585006224</string>
+
+    <string-array name="sort_options">
+        <item>Name</item>
+        <item>Size</item>
+        <item>Last Used</item>
+    </string-array>
+
+    <string-array name="filter_options">
+        <item>All Apps</item>
+        <item>User Apps</item>
+        <item>System Apps</item>
+    </string-array>
+
+    <!-- Onboarding strings -->
+    <string name="welcome_title">Welcome to Phone Cleaner Pro</string>
+    <string name="welcome_description">Optimize your phone\'s performance with our powerful cleaning tools.</string>
+    <string name="permissions_title">Permissions Required</string>
+    <string name="permissions_description">We need these permissions to clean and optimize your device.</string>
+    <string name="permissions_granted">All permissions granted!</string>
+    <string name="permissions_denied">Some permissions denied. You can grant them later in settings.</string>
+    <string name="permissions_needed">Permissions needed for full functionality.</string>
+    <string name="grant_permissions">Grant Permissions</string>
+    <string name="demo_title">See It In Action</string>
+    <string name="demo_description">Watch how Phone Cleaner Pro scans and optimizes your device.</string>
+    <string name="scanning">Scanning...</string>
+    <string name="scanning_progress">Scanning... %d%%</string>
+    <string name="scan_complete">Scan Complete!</string>
+    <string name="tour_title">Explore Features</string>
+    <string name="tour_description">Discover the powerful tools to keep your phone running smoothly.</string>
+    <string name="feature_clean">• Deep Clean: Remove junk files and cache</string>
+    <string name="feature_boost">• Memory Boost: Free up RAM for better performance</string>
+    <string name="feature_analyze">• App Analysis: Monitor and manage installed apps</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+</resources>
