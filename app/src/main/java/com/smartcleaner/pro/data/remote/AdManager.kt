@@ -8,6 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -17,6 +21,8 @@ import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdView
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
+import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 import com.smartcleaner.pro.R
 import com.smartcleaner.pro.data.local.AdImpression
 import com.smartcleaner.pro.data.local.AdImpressionDao
@@ -31,7 +37,7 @@ import javax.inject.Singleton
 class AdManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val adImpressionDao: AdImpressionDao
-) {
+) : LifecycleObserver {
 
     private val TAG = "AdManager"
 
@@ -39,6 +45,7 @@ class AdManager @Inject constructor(
     private val bannerAdUnitId = context.getString(R.string.admob_banner_ad_unit_id)
     private val interstitialAdUnitId = context.getString(R.string.admob_interstitial_ad_unit_id)
     private val rewardedAdUnitId = context.getString(R.string.admob_rewarded_ad_unit_id)
+    private val rewardedInterstitialAdUnitId = context.getString(R.string.admob_rewarded_interstitial_ad_unit_id)
     private val nativeAdUnitId = context.getString(R.string.admob_native_ad_unit_id)
     private val appOpenAdUnitId = context.getString(R.string.admob_app_open_ad_unit_id)
 
@@ -46,15 +53,23 @@ class AdManager @Inject constructor(
     private var bannerAdView: AdView? = null
     private var interstitialAd: InterstitialAd? = null
     private var rewardedAd: RewardedAd? = null
+    private var rewardedInterstitialAd: RewardedInterstitialAd? = null
     private var nativeAd: NativeAd? = null
     private var appOpenAd: AppOpenAd? = null
 
-    // Frequency capping for interstitial (max 1 per 3 minutes)
+    // Frequency capping for interstitial (3 per session, 3-minute cooldown)
+    private var sessionInterstitialCount = 0
     private var lastInterstitialShowTime: Long = 0
     private val interstitialCooldownMs = 3 * 60 * 1000L // 3 minutes
+    private val maxInterstitialPerSession = 3
+
+    // App open ad state
+    private var isLoadingAppOpenAd = false
+    private var isShowingAppOpenAd = false
 
     // Callbacks
     var onRewardedEarned: (() -> Unit)? = null
+    var onFeatureUnlockRequest: ((String) -> Unit)? = null
 
     private fun trackAdImpression(adId: String, type: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -68,18 +83,20 @@ class AdManager @Inject constructor(
     }
 
     init {
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         // Pre-load ads
         loadInterstitialAd()
         loadRewardedAd()
+        loadRewardedInterstitialAd()
         loadNativeAd()
         loadAppOpenAd()
     }
 
     // Banner Ad Methods
-    fun createBannerAd(): AdView {
+    fun createBannerAd(containerWidthDp: Int = 320): AdView {
         bannerAdView = AdView(context).apply {
             adUnitId = bannerAdUnitId
-            adSize = AdSize.BANNER
+            adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, containerWidthDp)
             loadAd(AdRequest.Builder().build())
         }
         return bannerAdView!!
@@ -112,8 +129,9 @@ class AdManager @Inject constructor(
 
     fun showInterstitialAd(activity: Activity, onAdClosed: (() -> Unit)? = null) {
         val currentTime = System.currentTimeMillis()
-        if (currentTime - lastInterstitialShowTime < interstitialCooldownMs) {
-            Log.d(TAG, "Interstitial ad on cooldown")
+        if (sessionInterstitialCount >= maxInterstitialPerSession ||
+            (lastInterstitialShowTime > 0 && currentTime - lastInterstitialShowTime < interstitialCooldownMs)) {
+            Log.d(TAG, "Interstitial ad capped: count=$sessionInterstitialCount, cooldown=${currentTime - lastInterstitialShowTime < interstitialCooldownMs}")
             onAdClosed?.invoke()
             return
         }
@@ -122,6 +140,7 @@ class AdManager @Inject constructor(
             ad.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d(TAG, "Interstitial ad dismissed")
+                    sessionInterstitialCount++
                     lastInterstitialShowTime = System.currentTimeMillis()
                     loadInterstitialAd() // Pre-load next ad
                     onAdClosed?.invoke()
@@ -165,12 +184,38 @@ class AdManager @Inject constructor(
         )
     }
 
+    private fun loadRewardedInterstitialAd() {
+        RewardedInterstitialAd.load(
+            context,
+            rewardedInterstitialAdUnitId,
+            AdRequest.Builder().build(),
+            object : RewardedInterstitialAdLoadCallback() {
+                override fun onAdLoaded(ad: RewardedInterstitialAd) {
+                    rewardedInterstitialAd = ad
+                    Log.d(TAG, "Rewarded interstitial ad loaded")
+                }
+
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    Log.e(TAG, "Rewarded interstitial ad failed to load: ${error.message}")
+                    rewardedInterstitialAd = null
+                }
+            }
+        )
+    }
+
     fun showRewardedAd(activity: Activity, onAdClosed: (() -> Unit)? = null) {
-        rewardedAd?.let { ad ->
+        val adToShow = rewardedAd ?: rewardedInterstitialAd
+        val adUnitId = if (rewardedAd != null) rewardedAdUnitId else rewardedInterstitialAdUnitId
+
+        adToShow?.let { ad ->
             ad.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d(TAG, "Rewarded ad dismissed")
-                    loadRewardedAd() // Pre-load next ad
+                    if (rewardedAd != null) {
+                        loadRewardedAd()
+                    } else {
+                        loadRewardedInterstitialAd()
+                    }
                     onAdClosed?.invoke()
                 }
 
@@ -181,8 +226,12 @@ class AdManager @Inject constructor(
 
                 override fun onAdShowedFullScreenContent() {
                     Log.d(TAG, "Rewarded ad showed")
-                    trackAdImpression(rewardedAdUnitId, "shown")
-                    rewardedAd = null
+                    trackAdImpression(adUnitId, "shown")
+                    if (rewardedAd != null) {
+                        rewardedAd = null
+                    } else {
+                        rewardedInterstitialAd = null
+                    }
                 }
             }
 
@@ -220,7 +269,17 @@ class AdManager @Inject constructor(
     }
 
     // App Open Ad Methods
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onStart() {
+        showAppOpenAdIfAvailable()
+    }
+
     private fun loadAppOpenAd() {
+        if (isLoadingAppOpenAd || isAppOpenAdAvailable()) {
+            return
+        }
+
+        isLoadingAppOpenAd = true
         AppOpenAd.load(
             context,
             appOpenAdUnitId,
@@ -228,15 +287,56 @@ class AdManager @Inject constructor(
             object : AppOpenAd.AppOpenAdLoadCallback() {
                 override fun onAdLoaded(ad: AppOpenAd) {
                     appOpenAd = ad
+                    isLoadingAppOpenAd = false
                     Log.d(TAG, "App open ad loaded")
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     Log.e(TAG, "App open ad failed to load: ${error.message}")
+                    isLoadingAppOpenAd = false
                     appOpenAd = null
                 }
             }
         )
+    }
+
+    private fun showAppOpenAdIfAvailable() {
+        if (!isShowingAppOpenAd && isAppOpenAdAvailable()) {
+            Log.d(TAG, "Will show app open ad")
+            val fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdDismissedFullScreenContent() {
+                    Log.d(TAG, "App open ad dismissed")
+                    appOpenAd = null
+                    isShowingAppOpenAd = false
+                    loadAppOpenAd()
+                }
+
+                override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                    Log.e(TAG, "App open ad failed to show: ${adError.message}")
+                    appOpenAd = null
+                    isShowingAppOpenAd = false
+                    loadAppOpenAd()
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    Log.d(TAG, "App open ad showed")
+                    trackAdImpression(appOpenAdUnitId, "shown")
+                    isShowingAppOpenAd = true
+                }
+            }
+
+            appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
+            appOpenAd?.show(context as Activity)
+        } else {
+            Log.d(TAG, "App open ad is not ready yet.")
+            if (!isLoadingAppOpenAd) {
+                loadAppOpenAd()
+            }
+        }
+    }
+
+    private fun isAppOpenAdAvailable(): Boolean {
+        return appOpenAd != null
     }
 
     fun getAppOpenAd(): AppOpenAd? = appOpenAd
@@ -247,7 +347,7 @@ class AdManager @Inject constructor(
         // Track impression
         trackAdImpression(nativeAdUnitId, "shown")
 
-        // Set the media view
+        // Set the media view (if available)
         nativeAdView.mediaView = nativeAdView.findViewById(R.id.ad_media)
 
         // Set other ad assets
@@ -255,11 +355,14 @@ class AdManager @Inject constructor(
         nativeAdView.bodyView = nativeAdView.findViewById(R.id.ad_body)
         nativeAdView.callToActionView = nativeAdView.findViewById(R.id.ad_call_to_action)
         nativeAdView.iconView = nativeAdView.findViewById(R.id.ad_app_icon)
+        nativeAdView.advertiserView = nativeAdView.findViewById(R.id.ad_advertiser)
 
         // Populate the ad assets
         (nativeAdView.headlineView as? TextView)?.text = nativeAd.headline
         (nativeAdView.bodyView as? TextView)?.text = nativeAd.body
         (nativeAdView.callToActionView as? Button)?.text = nativeAd.callToAction
+        (nativeAdView.advertiserView as? TextView)?.text = nativeAd.advertiser
+
         nativeAdView.iconView?.let { view ->
             if (nativeAd.icon != null) {
                 (view as? ImageView)?.setImageDrawable(nativeAd.icon?.drawable)
@@ -278,7 +381,10 @@ class AdManager @Inject constructor(
         destroyBannerAd()
         interstitialAd = null
         rewardedAd = null
+        rewardedInterstitialAd = null
         nativeAd?.destroy()
         nativeAd = null
+        appOpenAd = null
+        ProcessLifecycleOwner.get().lifecycle.removeObserver(this)
     }
 }
