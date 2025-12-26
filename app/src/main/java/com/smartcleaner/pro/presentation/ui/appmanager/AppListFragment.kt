@@ -10,11 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.smartcleaner.pro.R
+import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.FragmentAppListBinding
+import com.smartcleaner.pro.domain.model.AppInfo
 import com.smartcleaner.pro.presentation.common.BaseFragment
 import com.smartcleaner.pro.presentation.viewmodel.AppManagerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class AppListFragment : BaseFragment() {
@@ -24,6 +27,9 @@ class AppListFragment : BaseFragment() {
 
     private val viewModel: AppManagerViewModel by viewModels()
     private lateinit var adapter: AppListAdapter
+
+    @Inject
+    lateinit var adManager: AdManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +51,7 @@ class AppListFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         adapter = AppListAdapter(
+            adManager = adManager,
             onAppClick = { appInfo ->
                 // Navigate to app detail
                 val action = AppListFragmentDirections.actionAppListFragmentToAppDetailFragment(
@@ -127,8 +134,16 @@ class AppListFragment : BaseFragment() {
     private fun observeViewModel() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.filteredApps.collect { apps ->
-                adapter.submitList(apps)
-                binding.emptyText.visibility = if (apps.isEmpty()) View.VISIBLE else View.GONE
+                val listWithAds = createListWithAds(apps)
+                adapter.submitList(listWithAds)
+                if (apps.isEmpty()) {
+                    binding.emptyState.visibility = View.VISIBLE
+                    binding.appsRecyclerView.visibility = View.GONE
+                    showNativeAdInEmptyState()
+                } else {
+                    binding.emptyState.visibility = View.GONE
+                    binding.appsRecyclerView.visibility = View.VISIBLE
+                }
             }
         }
 
@@ -141,6 +156,29 @@ class AppListFragment : BaseFragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             binding.loadingProgress.visibility = if (isLoading) View.VISIBLE else View.GONE
             binding.appsRecyclerView.visibility = if (isLoading) View.GONE else View.VISIBLE
+        }
+    }
+
+    private fun createListWithAds(apps: List<AppInfo>): List<AppListItem> {
+        val result = mutableListOf<AppListItem>()
+        apps.forEachIndexed { index, appInfo ->
+            result.add(AppListItem.AppItem(appInfo))
+            // Insert ad every 8th position (after 7 apps, then ad, so position 7, 15, etc.)
+            if ((index + 1) % 8 == 0) {
+                result.add(AppListItem.AdItem(adManager.getNativeAd()))
+            }
+        }
+        return result
+    }
+
+    private fun showNativeAdInEmptyState() {
+        val nativeAd = adManager.getNativeAd()
+        if (nativeAd != null) {
+            val adView = binding.emptyStateNativeAd
+            adManager.populateNativeAdView(adView, nativeAd)
+            adView.visibility = View.VISIBLE
+        } else {
+            binding.emptyStateNativeAd.visibility = View.GONE
         }
     }
 

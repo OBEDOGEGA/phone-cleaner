@@ -346,14 +346,12 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Banner Ad -->
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/banner_ad_view"
+        <FrameLayout
+            android:id="@+id/banner_ad_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/admob_banner_ad_unit_id" />
+            android:layout_marginTop="16dp" />
 
     </LinearLayout>
 

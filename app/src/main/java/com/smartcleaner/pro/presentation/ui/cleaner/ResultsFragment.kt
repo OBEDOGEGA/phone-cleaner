@@ -26,7 +26,7 @@ class ResultsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CleanerViewModel by viewModels()
-    private lateinit var adapter: JunkItemAdapter
+    private lateinit var adapter: ResultsAdapter
 
     @Inject
     lateinit var adManager: AdManager
@@ -45,21 +45,10 @@ class ResultsFragment : Fragment() {
         setupRecyclerView()
         setupObservers()
         setupClickListeners()
-        loadNativeAd()
-    }
-
-    private fun loadNativeAd() {
-        val nativeAd = adManager.getNativeAd()
-        if (nativeAd != null) {
-            adManager.populateNativeAdView(binding.nativeAdView, nativeAd)
-            binding.nativeAdView.visibility = View.VISIBLE
-        } else {
-            binding.nativeAdView.visibility = View.GONE
-        }
     }
 
     private fun setupRecyclerView() {
-        adapter = JunkItemAdapter { item, isSelected ->
+        adapter = ResultsAdapter(adManager) { item, isSelected ->
             viewModel.updateJunkItemSelection(item, isSelected)
         }
 
@@ -71,13 +60,28 @@ class ResultsFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.junkItems.observe(viewLifecycleOwner) { items ->
-            adapter.submitList(items)
+            val listWithAds = createListWithAds(items)
+            adapter.submitList(listWithAds)
             updateTotalSize(items)
         }
 
         viewModel.totalJunkSize.observe(viewLifecycleOwner) { totalSize ->
             binding.totalSizeText.text = formatFileSize(totalSize)
         }
+    }
+
+    private fun createListWithAds(items: List<JunkItem>): List<ResultsListItem> {
+        val groupedItems = items.groupBy { it.category }
+        val result = mutableListOf<ResultsListItem>()
+
+        groupedItems.forEach { (category, categoryItems) ->
+            // Add all items in this category
+            result.addAll(categoryItems.map { ResultsListItem.JunkItemWrapper(it) })
+            // Add an ad after the category
+            result.add(ResultsListItem.AdItem(adManager.getNativeAd()))
+        }
+
+        return result
     }
 
     private fun setupClickListeners() {

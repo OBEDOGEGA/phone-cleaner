@@ -91,6 +91,14 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
 
+        <include
+            android:id="@+id/emptyStateNativeAd"
+            layout="@layout/native_ad_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -127,6 +135,43 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Grant Permission" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/premiumMessage"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Premium Feature"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Watch a rewarded ad to unlock Duplicate Photo Finder for 24 hours."
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/unlockButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Watch Ad & Unlock" />
 
     </LinearLayout>
 

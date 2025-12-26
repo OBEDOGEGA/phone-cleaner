@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.gms.ads.AdRequest
 import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.FragmentDashboardBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,8 +39,8 @@ class DashboardFragment : Fragment() {
     }
 
     private fun loadBannerAd() {
-        val adRequest = AdRequest.Builder().build()
-        binding.bannerAdView.loadAd(adRequest)
+        val adView = adManager.createBannerAd()
+        binding.bannerAdContainer.addView(adView)
     }
 
     private fun setupObservers() {

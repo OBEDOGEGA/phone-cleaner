@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.smartcleaner.pro.R
+import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.FragmentCleanBinding
 import com.smartcleaner.pro.domain.model.JunkItem
 import com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CleanFragment : Fragment() {
@@ -23,6 +25,9 @@ class CleanFragment : Fragment() {
 
     private val viewModel: CleanerViewModel by viewModels()
     private lateinit var selectedItems: List<JunkItem>
+
+    @Inject
+    lateinit var adManager: AdManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +81,9 @@ class CleanFragment : Fragment() {
     private fun startCleaning() {
         if (selectedItems.isNotEmpty()) {
             performHapticFeedback()
-            viewModel.startCleaning(selectedItems)
+            adManager.showInterstitialAd(requireActivity()) {
+                viewModel.startCleaning(selectedItems)
+            }
         } else {
             // No items to clean, go back
             findNavController().navigateUp()

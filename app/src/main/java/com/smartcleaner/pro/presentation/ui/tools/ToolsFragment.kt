@@ -12,13 +12,19 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.smartcleaner.pro.R
+import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.FragmentToolsBinding
+import com.smartcleaner.pro.presentation.ui.tools.ToolItem
 import com.smartcleaner.pro.presentation.common.BaseFragment
 import com.smartcleaner.pro.presentation.viewmodel.ToolsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ToolsFragment : BaseFragment() {
+
+    @Inject
+    lateinit var adManager: AdManager
 
     private var _binding: FragmentToolsBinding? = null
     private val binding get() = _binding!!
@@ -52,7 +58,7 @@ class ToolsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        toolsAdapter = ToolsAdapter { tool ->
+        toolsAdapter = ToolsAdapter(adManager) { tool ->
             when (tool.id) {
                 "duplicate_finder" -> navigateToDuplicateFinder()
                 "large_files" -> navigateToLargeFiles()
@@ -64,12 +70,13 @@ class ToolsFragment : BaseFragment() {
             adapter = toolsAdapter
         }
 
-        // Set up tools data
-        val tools = listOf(
-            Tool("duplicate_finder", "Duplicate Files", "Find and remove duplicate files", R.drawable.ic_duplicate),
-            Tool("large_files", "Large Files", "Find and manage large files", R.drawable.ic_large_file)
+        // Set up tools data with ad at position 2 (3rd item)
+        val toolItems = listOf(
+            ToolItem.Tool(Tool("duplicate_finder", "Duplicate Files", "Find and remove duplicate files", R.drawable.ic_duplicate)),
+            ToolItem.Tool(Tool("large_files", "Large Files", "Find and manage large files", R.drawable.ic_large_file)),
+            ToolItem.Ad
         )
-        toolsAdapter.submitList(tools)
+        toolsAdapter.submitList(toolItems)
     }
 
     private fun checkPermissions() {

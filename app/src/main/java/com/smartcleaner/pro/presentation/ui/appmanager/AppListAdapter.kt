@@ -5,15 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.nativead.NativeAd
+import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.ItemAppBinding
+import com.smartcleaner.pro.databinding.NativeAdLayoutBinding
 import com.smartcleaner.pro.domain.model.AppInfo
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-class AppListAdapter(
+class AppListAdapter @Inject constructor(
+    private val adManager: AdManager,
     private val onAppClick: (AppInfo) -> Unit,
     private val onAppSelectionChanged: (String, Boolean) -> Unit
-) : ListAdapter<AppInfo, AppListAdapter.AppViewHolder>(AppDiffCallback()) {
+) : ListAdapter<AppListItem, RecyclerView.ViewHolder>(AppListItemDiffCallback()) {
+
+    companion object {
+        private const val VIEW_TYPE_APP_ITEM = 0
+        private const val VIEW_TYPE_AD = 1
+    }
 
     private val selectedApps = mutableSetOf<String>()
     private var selectionMode = false
@@ -29,17 +39,40 @@ class AppListAdapter(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppViewHolder {
-        val binding = ItemAppBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return AppViewHolder(binding)
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is AppListItem.AppItem -> VIEW_TYPE_APP_ITEM
+            is AppListItem.AdItem -> VIEW_TYPE_AD
+        }
     }
 
-    override fun onBindViewHolder(holder: AppViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_APP_ITEM -> {
+                val binding = ItemAppBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                AppViewHolder(binding)
+            }
+            VIEW_TYPE_AD -> {
+                val binding = NativeAdLayoutBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                AdViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Unknown view type: $viewType")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val item = getItem(position)) {
+            is AppListItem.AppItem -> (holder as AppViewHolder).bind(item.appInfo)
+            is AppListItem.AdItem -> (holder as AdViewHolder).bind(item.nativeAd)
+        }
     }
 
     inner class AppViewHolder(private val binding: ItemAppBinding) :
@@ -85,12 +118,31 @@ class AppListAdapter(
         }
     }
 
-    class AppDiffCallback : DiffUtil.ItemCallback<AppInfo>() {
-        override fun areItemsTheSame(oldItem: AppInfo, newItem: AppInfo): Boolean {
-            return oldItem.packageName == newItem.packageName
+    inner class AdViewHolder(
+        private val binding: NativeAdLayoutBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(nativeAd: NativeAd?) {
+            if (nativeAd != null) {
+                adManager.populateNativeAdView(binding.nativeAdView, nativeAd)
+                binding.nativeAdView.visibility = android.view.View.VISIBLE
+            } else {
+                binding.nativeAdView.visibility = android.view.View.GONE
+            }
+        }
+    }
+
+    class AppListItemDiffCallback : DiffUtil.ItemCallback<AppListItem>() {
+        override fun areItemsTheSame(oldItem: AppListItem, newItem: AppListItem): Boolean {
+            return when {
+                oldItem is AppListItem.AppItem && newItem is AppListItem.AppItem ->
+                    oldItem.appInfo.packageName == newItem.appInfo.packageName
+                oldItem is AppListItem.AdItem && newItem is AppListItem.AdItem -> true
+                else -> false
+            }
         }
 
-        override fun areContentsTheSame(oldItem: AppInfo, newItem: AppInfo): Boolean {
+        override fun areContentsTheSame(oldItem: AppListItem, newItem: AppListItem): Boolean {
             return oldItem == newItem
         }
     }

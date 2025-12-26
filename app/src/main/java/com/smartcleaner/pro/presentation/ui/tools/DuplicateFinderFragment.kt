@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.smartcleaner.pro.databinding.FragmentDuplicateFinderBinding
 import com.smartcleaner.pro.presentation.common.BaseFragment
 import com.smartcleaner.pro.presentation.viewmodel.ToolsViewModel
+import com.smartcleaner.pro.utils.FeatureUnlockHelper
+import com.smartcleaner.pro.data.remote.AdManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DuplicateFinderFragment : BaseFragment() {
@@ -23,6 +26,12 @@ class DuplicateFinderFragment : BaseFragment() {
 
     private val viewModel: ToolsViewModel by viewModels()
     private lateinit var duplicateAdapter: DuplicateFileAdapter
+
+    @Inject
+    lateinit var featureUnlockHelper: FeatureUnlockHelper
+
+    @Inject
+    lateinit var adManager: AdManager
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -51,10 +60,14 @@ class DuplicateFinderFragment : BaseFragment() {
         setupClickListeners()
         setupObservers()
 
-        if (hasStoragePermission()) {
-            startScanning()
+        if (featureUnlockHelper.duplicatePhotoFinderUnlocked()) {
+            if (hasStoragePermission()) {
+                startScanning()
+            } else {
+                requestStoragePermission()
+            }
         } else {
-            requestStoragePermission()
+            showPremiumMessage()
         }
     }
 
@@ -78,6 +91,10 @@ class DuplicateFinderFragment : BaseFragment() {
         binding.grantPermissionButton.setOnClickListener {
             requestStoragePermission()
         }
+
+        binding.unlockButton.setOnClickListener {
+            unlockFeature()
+        }
     }
 
     private fun setupObservers() {
@@ -94,6 +111,7 @@ class DuplicateFinderFragment : BaseFragment() {
                 binding.duplicatesRecyclerView.visibility = View.GONE
                 binding.emptyState.visibility = View.VISIBLE
                 binding.permissionMessage.visibility = View.GONE
+                showNativeAdInEmptyState()
             }
         }
 
@@ -123,7 +141,40 @@ class DuplicateFinderFragment : BaseFragment() {
 
     private fun startScanning() {
         binding.permissionMessage.visibility = View.GONE
+        binding.premiumMessage.visibility = View.GONE
         viewModel.scanForDuplicateFiles()
+    }
+
+    private fun showPremiumMessage() {
+        binding.premiumMessage.visibility = View.VISIBLE
+        binding.scanButton.visibility = View.GONE
+        binding.duplicatesRecyclerView.visibility = View.GONE
+        binding.emptyState.visibility = View.GONE
+        binding.permissionMessage.visibility = View.GONE
+    }
+
+    private fun unlockFeature() {
+        featureUnlockHelper.requestFeatureUnlockViaRewardedAd("duplicate_photo_finder", requireActivity()) {
+            // After ad, check if unlocked and proceed
+            if (featureUnlockHelper.duplicatePhotoFinderUnlocked()) {
+                if (hasStoragePermission()) {
+                    startScanning()
+                } else {
+                    requestStoragePermission()
+                }
+            }
+        }
+    }
+
+    private fun showNativeAdInEmptyState() {
+        val nativeAd = adManager.getNativeAd()
+        if (nativeAd != null) {
+            val adView = binding.emptyStateNativeAd
+            adManager.populateNativeAdView(adView, nativeAd)
+            adView.visibility = View.VISIBLE
+        } else {
+            binding.emptyStateNativeAd.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {

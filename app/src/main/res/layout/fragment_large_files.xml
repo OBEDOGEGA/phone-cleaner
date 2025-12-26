@@ -91,6 +91,14 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
 
+        <include
+            android:id="@+id/emptyStateNativeAd"
+            layout="@layout/native_ad_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:visibility="gone" />
+
     </LinearLayout>
 
     <LinearLayout

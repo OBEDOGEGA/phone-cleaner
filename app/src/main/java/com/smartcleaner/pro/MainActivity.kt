@@ -3,10 +3,15 @@ package com.smartcleaner.pro
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.smartcleaner.pro.data.remote.AdManager
+import com.smartcleaner.pro.data.remote.ConsentManager
 import com.smartcleaner.pro.databinding.ActivityMainBinding
 import com.smartcleaner.pro.presentation.ui.onboarding.OnboardingActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,7 +26,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var adManager: AdManager
 
     @Inject
+    lateinit var consentManager: ConsentManager
+
+    @Inject
     lateinit var sharedPreferences: SharedPreferences
+
+    private lateinit var adView: AdView
+    private lateinit var refreshHandler: Handler
+    private lateinit var refreshRunnable: Runnable
 
     private var tabSwitchCount = 0
     private var sessionStartTime = 0L
@@ -40,10 +52,30 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Initialize GDPR consent
+        consentManager.initializeConsent(this) {
+            // Consent initialization complete, now load ads
+            loadAds()
+        }
+    }
+
+    private fun loadAds() {
         // Load banner ad
-        val adView = adManager.createBannerAd()
+        adView = adManager.createBannerAd()
         binding.adContainer.addView(adView)
 
+        // Set up banner refresh every 60 seconds
+        refreshHandler = Handler(Looper.getMainLooper())
+        refreshRunnable = Runnable {
+            adView.loadAd(adManager.buildAdRequest())
+            refreshHandler.postDelayed(refreshRunnable, 60000)
+        }
+        refreshHandler.postDelayed(refreshRunnable, 60000)
+
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
@@ -55,8 +87,9 @@ class MainActivity : AppCompatActivity() {
             // Show interstitial ad on feature switch (not on initial load)
             if (destination.id != navController.graph.startDestinationId) {
                 tabSwitchCount++
-                if (tabSwitchCount % 3 == 0) {
+                if (tabSwitchCount == 3) {
                     adManager.showInterstitialAd(this)
+                    tabSwitchCount = 0 // Reset for next cycle
                 }
             }
         }
@@ -77,5 +110,11 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        refreshHandler.removeCallbacks(refreshRunnable)
+        adView.destroy()
     }
 }

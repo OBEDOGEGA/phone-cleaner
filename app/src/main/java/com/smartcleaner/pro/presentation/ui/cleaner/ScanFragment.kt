@@ -12,9 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.smartcleaner.pro.R
+import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.FragmentScanBinding
 import com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ScanFragment : Fragment() {
@@ -23,6 +25,9 @@ class ScanFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: CleanerViewModel by viewModels()
+
+    @Inject
+    lateinit var adManager: AdManager
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -102,7 +107,9 @@ class ScanFragment : Fragment() {
     }
 
     private fun startScanning() {
-        viewModel.startScanning()
+        adManager.showInterstitialAd(requireActivity()) {
+            viewModel.startScanning()
+        }
     }
 
     private fun navigateToResults() {

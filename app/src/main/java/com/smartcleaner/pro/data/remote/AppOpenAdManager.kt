@@ -26,7 +26,8 @@ import javax.inject.Singleton
 @Singleton
 class AppOpenAdManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val adImpressionDao: AdImpressionDao
+    private val adImpressionDao: AdImpressionDao,
+    private val consentManager: ConsentManager
 ) : LifecycleObserver {
 
     private val TAG = "AppOpenAdManager"
@@ -35,6 +36,8 @@ class AppOpenAdManager @Inject constructor(
     private var appOpenAd: AppOpenAd? = null
     private var isLoadingAd = false
     private var isShowingAd = false
+    private var lastAppOpenTime: Long = 0L
+    private val appOpenCooldownMs = 30 * 60 * 1000L // 30 minutes
 
     init {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
@@ -53,7 +56,11 @@ class AppOpenAdManager @Inject constructor(
         }
 
         isLoadingAd = true
-        val request = AdRequest.Builder().build()
+        val request = if (!consentManager.isPersonalizedAdsAllowed()) {
+            AdRequest.Builder().setRequestNonPersonalizedAds(true).build()
+        } else {
+            AdRequest.Builder().build()
+        }
         AppOpenAd.load(
             context, appOpenAdUnitId, request,
             object : AppOpenAdLoadCallback() {
@@ -72,13 +79,15 @@ class AppOpenAdManager @Inject constructor(
     }
 
     private fun showAdIfAvailable() {
-        if (!isShowingAd && isAdAvailable()) {
-            Log.d(TAG, "Will show ad.")
+        val currentTime = System.currentTimeMillis()
+        if (!isShowingAd && isAdAvailable() && (currentTime - lastAppOpenTime > appOpenCooldownMs)) {
+            Log.d(TAG, "Will show app open ad.")
             val fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d(TAG, "App open ad dismissed")
                     appOpenAd = null
                     isShowingAd = false
+                    lastAppOpenTime = System.currentTimeMillis()
                     loadAd()
                 }
 
@@ -99,7 +108,7 @@ class AppOpenAdManager @Inject constructor(
             appOpenAd?.fullScreenContentCallback = fullScreenContentCallback
             appOpenAd?.show(context as Activity)
         } else {
-            Log.d(TAG, "App open ad is not ready yet.")
+            Log.d(TAG, "App open ad is not ready yet or cooldown active.")
             if (!isLoadingAd) {
                 loadAd()
             }

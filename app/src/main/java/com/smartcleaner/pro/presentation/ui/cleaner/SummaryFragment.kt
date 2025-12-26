@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.FragmentSummaryBinding
 import com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel
+import com.smartcleaner.pro.utils.FeatureUnlockHelper
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 import javax.inject.Inject
@@ -24,6 +25,9 @@ class SummaryFragment : Fragment() {
 
     @Inject
     lateinit var adManager: AdManager
+
+    @Inject
+    lateinit var featureUnlockHelper: FeatureUnlockHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,15 +65,8 @@ class SummaryFragment : Fragment() {
     }
 
     private fun showRewardedAdForDeepClean() {
-        adManager.onRewardedEarned = {
-            // Unlock deep clean feature
-            // For now, just show a toast or log
-            android.widget.Toast.makeText(requireContext(), "Deep Clean Unlocked!", android.widget.Toast.LENGTH_SHORT).show()
-            navigateToDashboard()
-        }
-
-        adManager.showRewardedAd(requireActivity()) {
-            // Ad not shown or failed, still navigate
+        featureUnlockHelper.requestFeatureUnlockViaRewardedAd("deep_clean", requireActivity()) {
+            // Ad closed, navigate regardless
             navigateToDashboard()
         }
     }
@@ -86,6 +83,11 @@ class SummaryFragment : Fragment() {
         binding.spaceSavedText.text = "Space Saved: ${formatFileSize(spaceSaved)}"
         binding.timeTakenText.text = "Time Taken: ${DecimalFormat("#.##").format(timeTaken / 1000.0)} seconds"
         binding.filesCleanedText.text = "Files Cleaned: $filesCleaned"
+
+        // Show interstitial if space saved > 50MB
+        if (spaceSaved > 50 * 1024 * 1024) {
+            adManager.showInterstitialAd(requireActivity())
+        }
     }
 
     private fun playConfettiAnimation() {

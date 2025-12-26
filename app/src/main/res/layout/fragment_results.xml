@@ -34,59 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText" />
 
-    <!-- Native Ad -->
-    <com.google.android.gms.ads.nativead.NativeAdView
-        android:id="@+id/native_ad_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@android:color/white"
-        android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/totalSizeText">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/ad_headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/ad_body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@android:color/black"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/ad_call_to_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="@color/accent"
-                android:textColor="@android:color/white" />
-
-            <ImageView
-                android:id="@+id/ad_app_icon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp" />
-
-        </LinearLayout>
-
-    </com.google.android.gms.ads.nativead.NativeAdView>
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resultsRecyclerView"
         android:layout_width="0dp"
@@ -97,7 +44,7 @@
         app:layout_constraintBottom_toTopOf="@+id/cleanButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/native_ad_view"
+        app:layout_constraintTop_toBottomOf="@+id/totalSizeText"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <Button

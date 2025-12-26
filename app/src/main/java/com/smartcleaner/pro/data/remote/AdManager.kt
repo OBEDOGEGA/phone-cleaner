@@ -8,12 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.android.gms.ads.*
-import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.nativead.NativeAd
@@ -26,6 +21,7 @@ import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoa
 import com.smartcleaner.pro.R
 import com.smartcleaner.pro.data.local.AdImpression
 import com.smartcleaner.pro.data.local.AdImpressionDao
+import com.smartcleaner.pro.data.remote.ConsentManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,10 +32,23 @@ import javax.inject.Singleton
 @Singleton
 class AdManager @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val adImpressionDao: AdImpressionDao
-) : LifecycleObserver {
+    private val adImpressionDao: AdImpressionDao,
+    private val consentManager: ConsentManager
+) {
 
     private val TAG = "AdManager"
+
+    // Retry constants
+    private const val MAX_RETRIES = 3
+    private const val INITIAL_RETRY_DELAY_MS = 1000L
+
+    // Retry counters
+    private var interstitialRetryCount = 0
+    private var rewardedRetryCount = 0
+    private var rewardedInterstitialRetryCount = 0
+    private var nativeRetryCount = 0
+    private var appOpenRetryCount = 0
+    private var bannerRetryCount = 0
 
     // Ad unit IDs
     private val bannerAdUnitId = context.getString(R.string.admob_banner_ad_unit_id)
@@ -71,6 +80,14 @@ class AdManager @Inject constructor(
     var onRewardedEarned: (() -> Unit)? = null
     var onFeatureUnlockRequest: ((String) -> Unit)? = null
 
+    fun buildAdRequest(): AdRequest {
+        val builder = AdRequest.Builder()
+        if (!consentManager.isPersonalizedAdsAllowed()) {
+            builder.setRequestNonPersonalizedAds(true)
+        }
+        return builder.build()
+    }
+
     private fun trackAdImpression(adId: String, type: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val impression = AdImpression(
@@ -97,7 +114,27 @@ class AdManager @Inject constructor(
         bannerAdView = AdView(context).apply {
             adUnitId = bannerAdUnitId
             adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, containerWidthDp)
-            loadAd(AdRequest.Builder().build())
+            adListener = object : AdListener() {
+                override fun onAdLoaded() {
+                    bannerRetryCount = 0
+                    Log.d(TAG, "Banner ad loaded")
+                }
+
+                override fun onAdFailedToLoad(error: LoadAdError) {
+                    Log.e(TAG, "Banner ad failed to load (attempt ${bannerRetryCount + 1}/${MAX_RETRIES}): ${error.message}")
+                    if (bannerRetryCount < MAX_RETRIES) {
+                        bannerRetryCount++
+                        val delay = INITIAL_RETRY_DELAY_MS * (1L shl (bannerRetryCount - 1))
+                        CoroutineScope(Dispatchers.Main).launch {
+                            kotlinx.coroutines.delay(delay)
+                            bannerAdView?.loadAd(buildAdRequest())
+                        }
+                    } else {
+                        bannerRetryCount = 0
+                    }
+                }
+            }
+            loadAd(buildAdRequest())
         }
         return bannerAdView!!
     }
@@ -112,16 +149,27 @@ class AdManager @Inject constructor(
         InterstitialAd.load(
             context,
             interstitialAdUnitId,
-            AdRequest.Builder().build(),
+            buildAdRequest(),
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(ad: InterstitialAd) {
                     interstitialAd = ad
+                    interstitialRetryCount = 0
                     Log.d(TAG, "Interstitial ad loaded")
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e(TAG, "Interstitial ad failed to load: ${error.message}")
+                    Log.e(TAG, "Interstitial ad failed to load (attempt ${interstitialRetryCount + 1}/${MAX_RETRIES}): ${error.message}")
                     interstitialAd = null
+                    if (interstitialRetryCount < MAX_RETRIES) {
+                        interstitialRetryCount++
+                        val delay = INITIAL_RETRY_DELAY_MS * (1L shl (interstitialRetryCount - 1))
+                        CoroutineScope(Dispatchers.Main).launch {
+                            kotlinx.coroutines.delay(delay)
+                            loadInterstitialAd()
+                        }
+                    } else {
+                        interstitialRetryCount = 0
+                    }
                 }
             }
         )
@@ -169,16 +217,27 @@ class AdManager @Inject constructor(
         RewardedAd.load(
             context,
             rewardedAdUnitId,
-            AdRequest.Builder().build(),
+            buildAdRequest(),
             object : RewardedAdLoadCallback() {
                 override fun onAdLoaded(ad: RewardedAd) {
                     rewardedAd = ad
+                    rewardedRetryCount = 0
                     Log.d(TAG, "Rewarded ad loaded")
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e(TAG, "Rewarded ad failed to load: ${error.message}")
+                    Log.e(TAG, "Rewarded ad failed to load (attempt ${rewardedRetryCount + 1}/${MAX_RETRIES}): ${error.message}")
                     rewardedAd = null
+                    if (rewardedRetryCount < MAX_RETRIES) {
+                        rewardedRetryCount++
+                        val delay = INITIAL_RETRY_DELAY_MS * (1L shl (rewardedRetryCount - 1))
+                        CoroutineScope(Dispatchers.Main).launch {
+                            kotlinx.coroutines.delay(delay)
+                            loadRewardedAd()
+                        }
+                    } else {
+                        rewardedRetryCount = 0
+                    }
                 }
             }
         )
@@ -188,16 +247,27 @@ class AdManager @Inject constructor(
         RewardedInterstitialAd.load(
             context,
             rewardedInterstitialAdUnitId,
-            AdRequest.Builder().build(),
+            buildAdRequest(),
             object : RewardedInterstitialAdLoadCallback() {
                 override fun onAdLoaded(ad: RewardedInterstitialAd) {
                     rewardedInterstitialAd = ad
+                    rewardedInterstitialRetryCount = 0
                     Log.d(TAG, "Rewarded interstitial ad loaded")
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e(TAG, "Rewarded interstitial ad failed to load: ${error.message}")
+                    Log.e(TAG, "Rewarded interstitial ad failed to load (attempt ${rewardedInterstitialRetryCount + 1}/${MAX_RETRIES}): ${error.message}")
                     rewardedInterstitialAd = null
+                    if (rewardedInterstitialRetryCount < MAX_RETRIES) {
+                        rewardedInterstitialRetryCount++
+                        val delay = INITIAL_RETRY_DELAY_MS * (1L shl (rewardedInterstitialRetryCount - 1))
+                        CoroutineScope(Dispatchers.Main).launch {
+                            kotlinx.coroutines.delay(delay)
+                            loadRewardedInterstitialAd()
+                        }
+                    } else {
+                        rewardedInterstitialRetryCount = 0
+                    }
                 }
             }
         )
@@ -250,12 +320,23 @@ class AdManager @Inject constructor(
         val adLoader = AdLoader.Builder(context, nativeAdUnitId)
             .forNativeAd { ad ->
                 nativeAd = ad
+                nativeRetryCount = 0
                 Log.d(TAG, "Native ad loaded")
             }
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e(TAG, "Native ad failed to load: ${error.message}")
+                    Log.e(TAG, "Native ad failed to load (attempt ${nativeRetryCount + 1}/${MAX_RETRIES}): ${error.message}")
                     nativeAd = null
+                    if (nativeRetryCount < MAX_RETRIES) {
+                        nativeRetryCount++
+                        val delay = INITIAL_RETRY_DELAY_MS * (1L shl (nativeRetryCount - 1))
+                        CoroutineScope(Dispatchers.Main).launch {
+                            kotlinx.coroutines.delay(delay)
+                            loadNativeAd()
+                        }
+                    } else {
+                        nativeRetryCount = 0
+                    }
                 }
             })
             .withNativeAdOptions(
@@ -265,7 +346,7 @@ class AdManager @Inject constructor(
             )
             .build()
 
-        adLoader.loadAd(AdRequest.Builder().build())
+        adLoader.loadAd(buildAdRequest())
     }
 
     // App Open Ad Methods
@@ -283,18 +364,29 @@ class AdManager @Inject constructor(
         AppOpenAd.load(
             context,
             appOpenAdUnitId,
-            AdRequest.Builder().build(),
+            buildAdRequest(),
             object : AppOpenAd.AppOpenAdLoadCallback() {
                 override fun onAdLoaded(ad: AppOpenAd) {
                     appOpenAd = ad
                     isLoadingAppOpenAd = false
+                    appOpenRetryCount = 0
                     Log.d(TAG, "App open ad loaded")
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
-                    Log.e(TAG, "App open ad failed to load: ${error.message}")
+                    Log.e(TAG, "App open ad failed to load (attempt ${appOpenRetryCount + 1}/${MAX_RETRIES}): ${error.message}")
                     isLoadingAppOpenAd = false
                     appOpenAd = null
+                    if (appOpenRetryCount < MAX_RETRIES) {
+                        appOpenRetryCount++
+                        val delay = INITIAL_RETRY_DELAY_MS * (1L shl (appOpenRetryCount - 1))
+                        CoroutineScope(Dispatchers.Main).launch {
+                            kotlinx.coroutines.delay(delay)
+                            loadAppOpenAd()
+                        }
+                    } else {
+                        appOpenRetryCount = 0
+                    }
                 }
             }
         )

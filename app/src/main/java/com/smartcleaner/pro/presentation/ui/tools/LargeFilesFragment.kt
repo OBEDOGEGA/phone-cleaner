@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.smartcleaner.pro.databinding.FragmentLargeFilesBinding
 import com.smartcleaner.pro.presentation.common.BaseFragment
 import com.smartcleaner.pro.presentation.viewmodel.ToolsViewModel
+import com.smartcleaner.pro.data.remote.AdManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LargeFilesFragment : BaseFragment() {
@@ -23,6 +25,9 @@ class LargeFilesFragment : BaseFragment() {
 
     private val viewModel: ToolsViewModel by viewModels()
     private lateinit var largeFileAdapter: LargeFileAdapter
+
+    @Inject
+    lateinit var adManager: AdManager
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -94,6 +99,7 @@ class LargeFilesFragment : BaseFragment() {
                 binding.largeFilesRecyclerView.visibility = View.GONE
                 binding.emptyState.visibility = View.VISIBLE
                 binding.permissionMessage.visibility = View.GONE
+                showNativeAdInEmptyState()
             }
         }
 
@@ -124,6 +130,17 @@ class LargeFilesFragment : BaseFragment() {
     private fun startScanning() {
         binding.permissionMessage.visibility = View.GONE
         viewModel.scanForLargeFiles()
+    }
+
+    private fun showNativeAdInEmptyState() {
+        val nativeAd = adManager.getNativeAd()
+        if (nativeAd != null) {
+            val adView = binding.emptyStateNativeAd
+            adManager.populateNativeAdView(adView, nativeAd)
+            adView.visibility = View.VISIBLE
+        } else {
+            binding.emptyStateNativeAd.visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
