@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
+    private var tabSwitchCount = 0
+    private var sessionStartTime = 0L
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,6 +34,8 @@ class MainActivity : AppCompatActivity() {
             startOnboardingActivity()
             return
         }
+
+        sessionStartTime = System.currentTimeMillis()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -49,7 +54,10 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             // Show interstitial ad on feature switch (not on initial load)
             if (destination.id != navController.graph.startDestinationId) {
-                adManager.showInterstitialAd(this)
+                tabSwitchCount++
+                if (tabSwitchCount % 3 == 0) {
+                    adManager.showInterstitialAd(this)
+                }
             }
         }
     }
@@ -62,5 +70,12 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, OnboardingActivity::class.java)
         startActivity(intent)
         finish()
+    }
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - sessionStartTime > 60000) {
+            adManager.showInterstitialAd(this) { super.onBackPressed() }
+        } else {
+            super.onBackPressed()
+        }
     }
 }
