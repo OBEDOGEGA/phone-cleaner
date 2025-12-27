@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.FragmentSummaryBinding
+import com.smartcleaner.pro.domain.model.JunkItem
 import com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel
 import com.smartcleaner.pro.utils.FeatureUnlockHelper
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,6 +59,10 @@ class SummaryFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
+        binding.watchAdButton.setOnClickListener {
+            featureUnlockHelper.requestDeepCleanUnlock(requireActivity())
+        }
+
         binding.doneButton.setOnClickListener {
             // Show rewarded ad for deep clean unlock
             showRewardedAdForDeepClean()
@@ -78,16 +83,14 @@ class SummaryFragment : Fragment() {
     private fun displayResults() {
         val spaceSaved = viewModel.spaceSaved.value ?: 0L
         val timeTaken = viewModel.cleanTime.value ?: 0L
-        val filesCleaned = arguments?.getParcelableArrayList<JunkItem>("selectedItems")?.size ?: 0
+        val filesCleaned = 0 // TODO: get from viewModel
 
         binding.spaceSavedText.text = "Space Saved: ${formatFileSize(spaceSaved)}"
         binding.timeTakenText.text = "Time Taken: ${DecimalFormat("#.##").format(timeTaken / 1000.0)} seconds"
         binding.filesCleanedText.text = "Files Cleaned: $filesCleaned"
 
-        // Show interstitial if space saved > 50MB
-        if (spaceSaved > 50 * 1024 * 1024) {
-            adManager.showInterstitialAd(requireActivity())
-        }
+        // Trigger interstitial ad if saved size > 50MB
+        adManager.tryShowInterstitialAfterClean(requireActivity(), spaceSaved)
     }
 
     private fun playConfettiAnimation() {

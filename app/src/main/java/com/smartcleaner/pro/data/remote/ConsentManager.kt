@@ -8,6 +8,7 @@ import com.google.android.ump.ConsentForm
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
+import com.smartcleaner.pro.data.local.UserPreference
 import com.smartcleaner.pro.data.local.UserPreferenceDao
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
@@ -51,13 +52,6 @@ class ConsentManager @Inject constructor(
         val params = ConsentRequestParameters.Builder()
             .setTagForUnderAgeOfConsent(false)
             .build()
-
-        // For testing in EU region (remove in production)
-        val debugSettings = ConsentDebugSettings.Builder(context)
-            .setDebugGeography(ConsentDebugSettings.DebugGeography.DEBUG_GEOGRAPHY_EEA)
-            .addTestDeviceHashedId("TEST-DEVICE-HASHED-ID") // Replace with actual test device ID
-            .build()
-        params.consentDebugSettings = debugSettings
 
         consentInformation.requestConsentInfoUpdate(
             activity,
@@ -121,7 +115,7 @@ class ConsentManager @Inject constructor(
      * Check if personalized ads are allowed
      */
     fun isPersonalizedAdsAllowed(): Boolean {
-        return getStoredConsentGiven() && consentInformation.consentStatus == ConsentInformation.ConsentStatus.CONSENT_STATUS_GRANTED
+        return consentInformation.consentStatus == ConsentInformation.ConsentStatus.OBTAINED
     }
 
     /**

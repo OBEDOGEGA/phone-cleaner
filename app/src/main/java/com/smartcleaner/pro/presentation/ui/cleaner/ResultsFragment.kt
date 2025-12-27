@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,8 @@ import com.smartcleaner.pro.databinding.FragmentResultsBinding
 import com.smartcleaner.pro.domain.model.JunkItem
 import com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import javax.inject.Inject
 
@@ -59,14 +62,18 @@ class ResultsFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.junkItems.observe(viewLifecycleOwner) { items ->
-            val listWithAds = createListWithAds(items)
-            adapter.submitList(listWithAds)
-            updateTotalSize(items)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.junkItems.collect { items ->
+                val listWithAds = createListWithAds(items)
+                adapter.submitList(listWithAds)
+                updateTotalSize(items)
+            }
         }
 
-        viewModel.totalJunkSize.observe(viewLifecycleOwner) { totalSize ->
-            binding.totalSizeText.text = formatFileSize(totalSize)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.totalJunkSize.collect { totalSize ->
+                binding.totalSizeText.text = formatFileSize(totalSize)
+            }
         }
     }
 
@@ -110,10 +117,7 @@ class ResultsFragment : Fragment() {
     }
 
     private fun navigateToClean(selectedItems: List<JunkItem>) {
-        val bundle = Bundle().apply {
-            putParcelableArrayList("selectedItems", ArrayList(selectedItems))
-        }
-        findNavController().navigate(R.id.action_resultsFragment_to_cleanFragment, bundle)
+        findNavController().navigate(R.id.action_resultsFragment_to_cleanFragment)
     }
 
     private fun formatFileSize(size: Long): String {

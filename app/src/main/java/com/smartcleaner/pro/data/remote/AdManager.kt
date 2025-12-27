@@ -8,12 +8,17 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.google.android.gms.ads.*
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdOptions
 import com.google.android.gms.ads.nativead.NativeAdView
+import com.google.android.gms.ads.appopen.AppOpenAd
+import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
@@ -34,13 +39,14 @@ class AdManager @Inject constructor(
     @ApplicationContext private val context: Context,
     private val adImpressionDao: AdImpressionDao,
     private val consentManager: ConsentManager
-) {
+) : LifecycleObserver {
+
+    companion object {
+        private const val MAX_RETRIES = 3
+        private const val INITIAL_RETRY_DELAY_MS = 1000L
+    }
 
     private val TAG = "AdManager"
-
-    // Retry constants
-    private const val MAX_RETRIES = 3
-    private const val INITIAL_RETRY_DELAY_MS = 1000L
 
     // Retry counters
     private var interstitialRetryCount = 0
@@ -80,13 +86,7 @@ class AdManager @Inject constructor(
     var onRewardedEarned: (() -> Unit)? = null
     var onFeatureUnlockRequest: ((String) -> Unit)? = null
 
-    fun buildAdRequest(): AdRequest {
-        val builder = AdRequest.Builder()
-        if (!consentManager.isPersonalizedAdsAllowed()) {
-            builder.setRequestNonPersonalizedAds(true)
-        }
-        return builder.build()
-    }
+    fun buildAdRequest(): AdRequest = AdRequest.Builder().build()
 
     private fun trackAdImpression(adId: String, type: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -209,6 +209,12 @@ class AdManager @Inject constructor(
         } ?: run {
             Log.d(TAG, "Interstitial ad not ready")
             onAdClosed?.invoke()
+        }
+    }
+
+    fun tryShowInterstitialAfterClean(activity: Activity, savedSize: Long) {
+        if (savedSize > 50L * 1024 * 1024) { // 50 MB
+            showInterstitialAd(activity)
         }
     }
 
@@ -350,7 +356,6 @@ class AdManager @Inject constructor(
     }
 
     // App Open Ad Methods
-    @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
         showAppOpenAdIfAvailable()
     }
@@ -365,7 +370,7 @@ class AdManager @Inject constructor(
             context,
             appOpenAdUnitId,
             buildAdRequest(),
-            object : AppOpenAd.AppOpenAdLoadCallback() {
+            object : AppOpenAdLoadCallback() {
                 override fun onAdLoaded(ad: AppOpenAd) {
                     appOpenAd = ad
                     isLoadingAppOpenAd = false

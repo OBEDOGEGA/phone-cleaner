@@ -81,6 +81,20 @@
         app:layout_constraintTop_toBottomOf="@+id/timeTakenText" />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/watchAdButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="Watch Ad for Deep Clean"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/doneButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="@style/Widget.Material3.Button" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/doneButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

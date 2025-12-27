@@ -56,11 +56,7 @@ class AppOpenAdManager @Inject constructor(
         }
 
         isLoadingAd = true
-        val request = if (!consentManager.isPersonalizedAdsAllowed()) {
-            AdRequest.Builder().setRequestNonPersonalizedAds(true).build()
-        } else {
-            AdRequest.Builder().build()
-        }
+        val request = AdRequest.Builder().build()
         AppOpenAd.load(
             context, appOpenAdUnitId, request,
             object : AppOpenAdLoadCallback() {

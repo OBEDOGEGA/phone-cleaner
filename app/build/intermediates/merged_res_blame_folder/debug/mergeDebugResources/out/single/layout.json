@@ -1,0 +1,106 @@
+[
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_settings.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/native_ad_layout.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/native_ad_layout.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_app_detail.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_app_detail.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/item_running_app.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/item_running_app.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_results.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_results.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_app_list.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_app_list.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_large_files.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_large_files.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_clean.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_clean.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/item_tool.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/item_tool.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_demo.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_demo.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/activity_onboarding.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/activity_onboarding.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_permissions.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_permissions.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/item_permission.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/item_permission.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_duplicate_finder.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_duplicate_finder.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/item_app.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/item_app.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_summary.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_summary.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/activity_main.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/item_duplicate_file.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/item_duplicate_file.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_dashboard.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_dashboard.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_tour.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_tour.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_scan.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_scan.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/item_junk_file.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/item_junk_file.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/item_large_file.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/item_large_file.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_welcome.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_welcome.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_tools.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_tools.xml"
+    },
+    {
+        "merged": "com.smartcleaner.pro.app-mergeDebugResources-62:/layout/fragment_memory_booster.xml",
+        "source": "com.smartcleaner.pro.app-main-65:/layout/fragment_memory_booster.xml"
+    }
+]

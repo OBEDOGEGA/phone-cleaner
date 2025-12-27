@@ -219,9 +219,14 @@ class FeatureUnlockHelper @Inject constructor(
                                          onAdClosed: (() -> Unit)? = null) {
         // Set up the callback for this specific feature
         setupRewardedAdCallback(feature)
-        
+
         // Show the rewarded ad
         adManager.showRewardedAd(activity, onAdClosed)
+    }
+
+    // Convenience method to request deep clean unlock via rewarded ad
+    fun requestDeepCleanUnlock(activity: android.app.Activity, onAdClosed: (() -> Unit)? = null) {
+        requestFeatureUnlockViaRewardedAd(FEATURE_DEEP_CLEAN, activity, onAdClosed)
     }
 
     // Cleanup method

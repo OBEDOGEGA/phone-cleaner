@@ -3,15 +3,18 @@ package com.smartcleaner.pro.data.repository
 import android.app.ActivityManager
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.work.ExistingWorkPolicy
+import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.smartcleaner.pro.data.worker.MemoryBoostWorker
 import com.smartcleaner.pro.data.local.WhitelistedApp
 import com.smartcleaner.pro.data.local.WhitelistedAppDao
 import com.smartcleaner.pro.domain.model.RunningApp
 import com.smartcleaner.pro.domain.repository.IBoostRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import java.util.concurrent.TimeUnit
@@ -47,7 +50,7 @@ class BoostRepositoryImpl @Inject constructor(
     }
 
     private suspend fun getWhitelistSync(): Set<String> {
-        return whitelistedAppDao.getWhitelistedApps().firstOrNull()?.map { it.packageName }?.toSet() ?: emptySet()
+        return whitelistedAppDao.getWhitelistedApps().first().map { it.packageName }.toSet()
     }
 
     override suspend fun boostMemory(whitelistedPackages: Set<String>): Long {
@@ -90,7 +93,7 @@ class BoostRepositoryImpl @Inject constructor(
             .build()
         workManager.enqueueUniquePeriodicWork(
             "auto_boost",
-            ExistingWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.REPLACE,
             workRequest
         )
     }

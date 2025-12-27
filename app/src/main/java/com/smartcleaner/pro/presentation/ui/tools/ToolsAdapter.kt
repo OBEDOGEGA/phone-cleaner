@@ -12,7 +12,6 @@ import com.smartcleaner.pro.R
 import com.smartcleaner.pro.data.remote.AdManager
 import com.smartcleaner.pro.databinding.ItemToolBinding
 import com.smartcleaner.pro.databinding.NativeAdLayoutBinding
-import dagger.hilt.android.EntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 

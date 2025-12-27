@@ -174,11 +174,11 @@ class AppListFragment : BaseFragment() {
     private fun showNativeAdInEmptyState() {
         val nativeAd = adManager.getNativeAd()
         if (nativeAd != null) {
-            val adView = binding.emptyStateNativeAd
+            val adView = binding.emptyStateNativeAd.root
             adManager.populateNativeAdView(adView, nativeAd)
             adView.visibility = View.VISIBLE
         } else {
-            binding.emptyStateNativeAd.visibility = View.GONE
+            binding.emptyStateNativeAd.root.visibility = View.GONE
         }
     }
 

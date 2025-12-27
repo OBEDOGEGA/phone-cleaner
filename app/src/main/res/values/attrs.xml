@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppTheme">
+        <attr name="colorBackground" format="color"/>
+        <attr name="colorInverseSurface" format="color"/>
+        <attr name="colorInverseOnSurface" format="color"/>
+        <attr name="colorInversePrimary" format="color"/>
+    </declare-styleable>
+</resources>

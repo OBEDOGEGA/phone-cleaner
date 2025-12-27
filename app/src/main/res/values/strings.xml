@@ -43,4 +43,6 @@
     <string name="feature_analyze">• App Analysis: Monitor and manage installed apps</string>
     <string name="next">Next</string>
     <string name="skip">Skip</string>
+    <string name="ad_icon_description">Ad icon</string>
+    <string name="ad_install">Install</string>
 </resources>

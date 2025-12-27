@@ -1,5 +1,13 @@
 package com.smartcleaner.pro.domain.usecase
 
+import com.smartcleaner.pro.domain.model.RunningApp
+import kotlinx.coroutines.flow.Flow
+
 interface IBoostUseCase {
-    // Interface for boost use case operations
+    fun getRunningApps(): Flow<List<RunningApp>>
+    suspend fun boostMemory(): Long
+    suspend fun toggleWhitelist(packageName: String)
+    fun getWhitelist(): Flow<Set<String>>
+    suspend fun scheduleAutoBoost(intervalHours: Int)
+    suspend fun cancelAutoBoost()
 }
