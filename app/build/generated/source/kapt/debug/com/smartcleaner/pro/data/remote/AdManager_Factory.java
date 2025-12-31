@@ -16,7 +16,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class AdManager_Factory implements Factory<AdManager> {
   private final Provider<Context> contextProvider;

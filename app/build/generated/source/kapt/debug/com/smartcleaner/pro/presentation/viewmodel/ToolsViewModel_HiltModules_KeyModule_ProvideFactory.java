@@ -3,7 +3,6 @@ package com.smartcleaner.pro.presentation.viewmodel;
 
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
-import dagger.internal.Preconditions;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
 
@@ -14,11 +13,12 @@ import dagger.internal.ScopeMetadata;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
-public final class ToolsViewModel_HiltModules_KeyModule_ProvideFactory implements Factory<String> {
+public final class ToolsViewModel_HiltModules_KeyModule_ProvideFactory implements Factory<Boolean> {
   @Override
-  public String get() {
+  public Boolean get() {
     return provide();
   }
 
@@ -26,8 +26,8 @@ public final class ToolsViewModel_HiltModules_KeyModule_ProvideFactory implement
     return InstanceHolder.INSTANCE;
   }
 
-  public static String provide() {
-    return Preconditions.checkNotNullFromProvides(ToolsViewModel_HiltModules.KeyModule.provide());
+  public static boolean provide() {
+    return ToolsViewModel_HiltModules.KeyModule.provide();
   }
 
   private static final class InstanceHolder {

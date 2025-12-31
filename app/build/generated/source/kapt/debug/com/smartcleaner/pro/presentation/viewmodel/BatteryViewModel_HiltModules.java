@@ -10,9 +10,7 @@ import dagger.hilt.android.components.ViewModelComponent;
 import dagger.hilt.android.internal.lifecycle.HiltViewModelMap;
 import dagger.hilt.codegen.OriginatingElement;
 import dagger.multibindings.IntoMap;
-import dagger.multibindings.IntoSet;
-import dagger.multibindings.StringKey;
-import java.lang.String;
+import dagger.multibindings.LazyClassKey;
 
 @OriginatingElement(
     topLevelClass = BatteryViewModel.class
@@ -29,7 +27,7 @@ public final class BatteryViewModel_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("com.smartcleaner.pro.presentation.viewmodel.BatteryViewModel")
+    @LazyClassKey(BatteryViewModel.class)
     @HiltViewModelMap
     public abstract ViewModel binds(BatteryViewModel vm);
   }
@@ -41,10 +39,11 @@ public final class BatteryViewModel_HiltModules {
     }
 
     @Provides
-    @IntoSet
+    @IntoMap
+    @LazyClassKey(BatteryViewModel.class)
     @HiltViewModelMap.KeySet
-    public static String provide() {
-      return "com.smartcleaner.pro.presentation.viewmodel.BatteryViewModel";
+    public static boolean provide() {
+      return true;
     }
   }
 }

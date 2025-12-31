@@ -17,7 +17,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class RepositoryModule_Companion_ProvidePermissionManagerFactory implements Factory<PermissionManager> {
   private final Provider<Context> contextProvider;

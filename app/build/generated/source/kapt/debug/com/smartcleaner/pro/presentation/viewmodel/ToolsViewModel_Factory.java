@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class ToolsViewModel_Factory implements Factory<ToolsViewModel> {
   private final Provider<IAnalyzeUseCase> analyzeUseCaseProvider;

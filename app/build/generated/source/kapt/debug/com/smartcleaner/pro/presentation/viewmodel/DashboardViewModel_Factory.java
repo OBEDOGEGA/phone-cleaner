@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class DashboardViewModel_Factory implements Factory<DashboardViewModel> {
   private final Provider<Application> applicationProvider;

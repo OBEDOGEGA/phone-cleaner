@@ -19,7 +19,8 @@ import kotlin.jvm.functions.Function2;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class AppListAdapter_Factory implements Factory<AppListAdapter> {
   private final Provider<AdManager> adManagerProvider;

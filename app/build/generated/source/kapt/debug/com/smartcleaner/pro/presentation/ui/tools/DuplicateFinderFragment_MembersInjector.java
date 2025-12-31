@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class DuplicateFinderFragment_MembersInjector implements MembersInjector<DuplicateFinderFragment> {
   private final Provider<FeatureUnlockHelper> featureUnlockHelperProvider;

@@ -10,9 +10,7 @@ import dagger.hilt.android.components.ViewModelComponent;
 import dagger.hilt.android.internal.lifecycle.HiltViewModelMap;
 import dagger.hilt.codegen.OriginatingElement;
 import dagger.multibindings.IntoMap;
-import dagger.multibindings.IntoSet;
-import dagger.multibindings.StringKey;
-import java.lang.String;
+import dagger.multibindings.LazyClassKey;
 
 @OriginatingElement(
     topLevelClass = DashboardViewModel.class
@@ -29,7 +27,7 @@ public final class DashboardViewModel_HiltModules {
 
     @Binds
     @IntoMap
-    @StringKey("com.smartcleaner.pro.presentation.viewmodel.DashboardViewModel")
+    @LazyClassKey(DashboardViewModel.class)
     @HiltViewModelMap
     public abstract ViewModel binds(DashboardViewModel vm);
   }
@@ -41,10 +39,11 @@ public final class DashboardViewModel_HiltModules {
     }
 
     @Provides
-    @IntoSet
+    @IntoMap
+    @LazyClassKey(DashboardViewModel.class)
     @HiltViewModelMap.KeySet
-    public static String provide() {
-      return "com.smartcleaner.pro.presentation.viewmodel.DashboardViewModel";
+    public static boolean provide() {
+      return true;
     }
   }
 }

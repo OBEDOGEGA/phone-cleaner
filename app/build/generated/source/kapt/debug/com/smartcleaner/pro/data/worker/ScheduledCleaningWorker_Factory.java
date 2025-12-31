@@ -17,7 +17,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class ScheduledCleaningWorker_Factory {
   private final Provider<ICleanRepository> cleanRepositoryProvider;

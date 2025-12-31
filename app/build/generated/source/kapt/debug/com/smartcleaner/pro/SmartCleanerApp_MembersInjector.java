@@ -14,7 +14,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class SmartCleanerApp_MembersInjector implements MembersInjector<SmartCleanerApp> {
   private final Provider<AppOpenAdManager> appOpenAdManagerProvider;

@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class BatteryViewModel_Factory implements Factory<BatteryViewModel> {
   private final Provider<Application> applicationProvider;
