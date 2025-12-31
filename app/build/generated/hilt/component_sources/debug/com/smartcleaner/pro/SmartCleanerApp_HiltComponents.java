@@ -5,6 +5,7 @@ import com.smartcleaner.pro.di.RepositoryModule;
 import com.smartcleaner.pro.di.ViewModelModule;
 import com.smartcleaner.pro.presentation.ui.appmanager.AppDetailFragment_GeneratedInjector;
 import com.smartcleaner.pro.presentation.ui.appmanager.AppListFragment_GeneratedInjector;
+import com.smartcleaner.pro.presentation.ui.battery.BatteryFragment_GeneratedInjector;
 import com.smartcleaner.pro.presentation.ui.boost.MemoryBoosterFragment_GeneratedInjector;
 import com.smartcleaner.pro.presentation.ui.cleaner.CleanFragment_GeneratedInjector;
 import com.smartcleaner.pro.presentation.ui.cleaner.ResultsFragment_GeneratedInjector;
@@ -18,9 +19,11 @@ import com.smartcleaner.pro.presentation.ui.tools.DuplicateFinderFragment_Genera
 import com.smartcleaner.pro.presentation.ui.tools.LargeFilesFragment_GeneratedInjector;
 import com.smartcleaner.pro.presentation.ui.tools.ToolsFragment_GeneratedInjector;
 import com.smartcleaner.pro.presentation.viewmodel.AppManagerViewModel_HiltModules;
+import com.smartcleaner.pro.presentation.viewmodel.BatteryViewModel_HiltModules;
 import com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel_HiltModules;
 import com.smartcleaner.pro.presentation.viewmodel.DashboardViewModel_HiltModules;
 import com.smartcleaner.pro.presentation.viewmodel.MemoryBoosterViewModel_HiltModules;
+import com.smartcleaner.pro.presentation.viewmodel.SettingsViewModel_HiltModules;
 import com.smartcleaner.pro.presentation.viewmodel.ToolsViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
@@ -165,10 +168,12 @@ public final class SmartCleanerApp_HiltComponents {
   @Subcomponent(
       modules = {
           AppManagerViewModel_HiltModules.KeyModule.class,
+          BatteryViewModel_HiltModules.KeyModule.class,
           CleanerViewModel_HiltModules.KeyModule.class,
           DashboardViewModel_HiltModules.KeyModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           MemoryBoosterViewModel_HiltModules.KeyModule.class,
+          SettingsViewModel_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class,
           ToolsViewModel_HiltModules.KeyModule.class
@@ -209,10 +214,12 @@ public final class SmartCleanerApp_HiltComponents {
   @Subcomponent(
       modules = {
           AppManagerViewModel_HiltModules.BindsModule.class,
+          BatteryViewModel_HiltModules.BindsModule.class,
           CleanerViewModel_HiltModules.BindsModule.class,
           DashboardViewModel_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           MemoryBoosterViewModel_HiltModules.BindsModule.class,
+          SettingsViewModel_HiltModules.BindsModule.class,
           ToolsViewModel_HiltModules.BindsModule.class,
           ViewModelModule.class
       }
@@ -241,6 +248,7 @@ public final class SmartCleanerApp_HiltComponents {
   @FragmentScoped
   public abstract static class FragmentC implements AppDetailFragment_GeneratedInjector,
       AppListFragment_GeneratedInjector,
+      BatteryFragment_GeneratedInjector,
       MemoryBoosterFragment_GeneratedInjector,
       CleanFragment_GeneratedInjector,
       ResultsFragment_GeneratedInjector,

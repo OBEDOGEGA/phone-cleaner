@@ -52,7 +52,7 @@ class NotificationManager @Inject constructor(
         )
 
         val notification = NotificationCompat.Builder(context, CLEANING_CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_launcher)
             .setContentTitle("Smart Cleaner Pro")
             .setContentText("Cleaning in progress... ${formatSize(cleanedSize)} freed")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -72,7 +72,7 @@ class NotificationManager @Inject constructor(
         )
 
         val notification = NotificationCompat.Builder(context, CLEANING_CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_launcher)
             .setContentTitle("Cleaning Complete!")
             .setContentText("Freed ${formatSize(cleanedSize)} from $filesCleaned files")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -92,7 +92,7 @@ class NotificationManager @Inject constructor(
         )
 
         val notification = NotificationCompat.Builder(context, CLEANING_CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.ic_launcher)
             .setContentTitle("Scheduled Cleaning")
             .setContentText("Your scheduled cleaning has started")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
