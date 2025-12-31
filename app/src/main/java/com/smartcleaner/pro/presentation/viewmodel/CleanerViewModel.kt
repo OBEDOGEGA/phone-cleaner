@@ -43,6 +43,9 @@ class CleanerViewModel @Inject constructor(
     private val _cleanTime = MutableLiveData<Long>()
     val cleanTime: LiveData<Long> = _cleanTime
 
+    private val _filesCleaned = MutableLiveData<Int>()
+    val filesCleaned: LiveData<Int> = _filesCleaned
+
     private var scanJob: Job? = null
     private var cleanJob: Job? = null
 
@@ -94,6 +97,7 @@ class CleanerViewModel @Inject constructor(
             // Perform actual cleaning
             val cleanedSize = cleanUseCase.cleanJunk(selectedItems)
             _spaceSaved.value = cleanedSize
+            _filesCleaned.value = selectedItems.size
 
             val endTime = System.currentTimeMillis()
             _cleanTime.value = endTime - startTime

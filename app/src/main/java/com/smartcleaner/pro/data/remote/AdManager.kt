@@ -113,7 +113,7 @@ class AdManager @Inject constructor(
     fun createBannerAd(containerWidthDp: Int = 320): AdView {
         bannerAdView = AdView(context).apply {
             adUnitId = bannerAdUnitId
-            adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, containerWidthDp)
+            setAdSize(AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, containerWidthDp))
             adListener = object : AdListener() {
                 override fun onAdLoaded() {
                     bannerRetryCount = 0
@@ -284,7 +284,7 @@ class AdManager @Inject constructor(
         val adUnitId = if (rewardedAd != null) rewardedAdUnitId else rewardedInterstitialAdUnitId
 
         adToShow?.let { ad ->
-            ad.fullScreenContentCallback = object : FullScreenContentCallback() {
+            val callback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     Log.d(TAG, "Rewarded ad dismissed")
                     if (rewardedAd != null) {
@@ -311,9 +311,21 @@ class AdManager @Inject constructor(
                 }
             }
 
-            ad.show(activity) { rewardItem ->
-                Log.d(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type}")
-                onRewardedEarned?.invoke()
+            when (ad) {
+                is RewardedAd -> {
+                    ad.fullScreenContentCallback = callback
+                    ad.show(activity) { rewardItem ->
+                        Log.d(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type}")
+                        onRewardedEarned?.invoke()
+                    }
+                }
+                is RewardedInterstitialAd -> {
+                    ad.fullScreenContentCallback = callback
+                    ad.show(activity) { rewardItem ->
+                        Log.d(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type}")
+                        onRewardedEarned?.invoke()
+                    }
+                }
             }
         } ?: run {
             Log.d(TAG, "Rewarded ad not ready")
@@ -444,8 +456,8 @@ class AdManager @Inject constructor(
         // Track impression
         trackAdImpression(nativeAdUnitId, "shown")
 
-        // Set the media view (if available)
-        nativeAdView.mediaView = nativeAdView.findViewById(R.id.ad_media)
+        // Set the media view (if available) - commented out as this layout doesn't include media
+        // nativeAdView.mediaView = nativeAdView.findViewById(R.id.ad_media)
 
         // Set other ad assets
         nativeAdView.headlineView = nativeAdView.findViewById(R.id.ad_headline)

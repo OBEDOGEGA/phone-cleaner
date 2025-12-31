@@ -70,10 +70,8 @@ class ResultsFragment : Fragment() {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.totalJunkSize.collect { totalSize ->
-                binding.totalSizeText.text = formatFileSize(totalSize)
-            }
+        viewModel.totalJunkSize.observe(viewLifecycleOwner) { totalSize ->
+            binding.totalSizeText.text = formatFileSize(totalSize)
         }
     }
 

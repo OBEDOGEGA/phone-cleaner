@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.dashboard.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboardFragment_to_scanFragment"
+            app:destination="@id/scanFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/boostFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.boost.MemoryBoosterFragment"
+        android:label="Memory Booster" />
+
+    <fragment
+        android:id="@+id/toolsFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.tools.ToolsFragment"
+        android:label="Tools">
+        <action
+            android:id="@+id/action_toolsFragment_to_duplicateFinderFragment"
+            app:destination="@id/duplicateFinderFragment" />
+        <action
+            android:id="@+id/action_toolsFragment_to_largeFilesFragment"
+            app:destination="@id/largeFilesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.settings.SettingsFragment"
+        android:label="Settings" />
+
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.cleaner.ScanFragment"
+        android:label="Scan">
+        <action
+            android:id="@+id/action_scanFragment_to_resultsFragment"
+            app:destination="@id/resultsFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/resultsFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.cleaner.ResultsFragment"
+        android:label="Results">
+        <action
+            android:id="@+id/action_resultsFragment_to_cleanFragment"
+            app:destination="@id/cleanFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/cleanFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.cleaner.CleanFragment"
+        android:label="Clean">
+        <action
+            android:id="@+id/action_cleanFragment_to_summaryFragment"
+            app:destination="@id/summaryFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/summaryFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.cleaner.SummaryFragment"
+        android:label="Summary" />
+
+    <fragment
+        android:id="@+id/appListFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.appmanager.AppListFragment"
+        android:label="App Manager">
+        <action
+            android:id="@+id/action_appListFragment_to_appDetailFragment"
+            app:destination="@id/appDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/appDetailFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.appmanager.AppDetailFragment"
+        android:label="App Details">
+        <argument
+            android:name="packageName"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/duplicateFinderFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.tools.DuplicateFinderFragment"
+        android:label="Duplicate Files" />
+
+    <fragment
+        android:id="@+id/largeFilesFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.tools.LargeFilesFragment"
+        android:label="Large Files" />
+
+</navigation>

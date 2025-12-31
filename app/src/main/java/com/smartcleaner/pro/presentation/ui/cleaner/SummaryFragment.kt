@@ -56,6 +56,10 @@ class SummaryFragment : Fragment() {
             val seconds = time / 1000.0
             binding.timeTakenText.text = "Time Taken: ${DecimalFormat("#.##").format(seconds)} seconds"
         }
+
+        viewModel.filesCleaned.observe(viewLifecycleOwner) { filesCleaned ->
+            binding.filesCleanedText.text = "Files Cleaned: $filesCleaned"
+        }
     }
 
     private fun setupClickListeners() {
@@ -83,7 +87,7 @@ class SummaryFragment : Fragment() {
     private fun displayResults() {
         val spaceSaved = viewModel.spaceSaved.value ?: 0L
         val timeTaken = viewModel.cleanTime.value ?: 0L
-        val filesCleaned = 0 // TODO: get from viewModel
+        val filesCleaned = viewModel.filesCleaned.value ?: 0
 
         binding.spaceSavedText.text = "Space Saved: ${formatFileSize(spaceSaved)}"
         binding.timeTakenText.text = "Time Taken: ${DecimalFormat("#.##").format(timeTaken / 1000.0)} seconds"

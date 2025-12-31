@@ -2,8 +2,10 @@ package com.smartcleaner.pro.di
 
 import com.smartcleaner.pro.domain.usecase.AnalyzeUseCaseImpl
 import com.smartcleaner.pro.domain.usecase.BoostUseCaseImpl
+import com.smartcleaner.pro.domain.usecase.CleanUseCaseImpl
 import com.smartcleaner.pro.domain.usecase.IAnalyzeUseCase
 import com.smartcleaner.pro.domain.usecase.IBoostUseCase
+import com.smartcleaner.pro.domain.usecase.ICleanUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -19,4 +21,7 @@ abstract class ViewModelModule {
 
     @Binds
     abstract fun bindBoostUseCase(useCase: BoostUseCaseImpl): IBoostUseCase
+
+    @Binds
+    abstract fun bindCleanUseCase(useCase: CleanUseCaseImpl): ICleanUseCase
 }
