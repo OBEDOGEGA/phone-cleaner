@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class OnboardingActivity_MembersInjector implements MembersInjector<OnboardingActivity> {
   private final Provider<SharedPreferences> sharedPreferencesProvider;

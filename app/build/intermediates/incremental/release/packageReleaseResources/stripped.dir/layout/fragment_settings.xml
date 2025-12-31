@@ -33,13 +33,31 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Settings items go here -->
+            <!-- Scheduled Cleaning Section -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Settings options will be added here"
+                android:layout_marginBottom="8dp"
+                android:text="Scheduled Cleaning"
                 android:textColor="@android:color/white"
-                android:textSize="16sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Automatically clean junk files at regular intervals"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+
+            <Spinner
+                android:id="@+id/autoCleanIntervalSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:background="@android:color/white"
+                android:padding="8dp" />
 
         </LinearLayout>
 

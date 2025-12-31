@@ -14,7 +14,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class LargeFilesFragment_MembersInjector implements MembersInjector<LargeFilesFragment> {
   private final Provider<AdManager> adManagerProvider;

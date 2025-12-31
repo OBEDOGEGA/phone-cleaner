@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class MemoryBoosterViewModel_Factory implements Factory<MemoryBoosterViewModel> {
   private final Provider<IBoostUseCase> boostUseCaseProvider;

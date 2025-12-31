@@ -36,9 +36,8 @@ class BoostRepositoryImpl @Inject constructor(
         val runningApps = runningProcesses.mapNotNull { process ->
             val packageName = process.pkgList?.firstOrNull() ?: return@mapNotNull null
             val appName = getAppName(packageName)
-            val memoryInfo = android.os.Debug.MemoryInfo()
-            android.os.Debug.getMemoryInfo(memoryInfo)
-            val memoryUsage = memoryInfo.totalPss.toLong()
+            val memoryInfos = activityManager.getProcessMemoryInfo(intArrayOf(process.pid))
+            val memoryUsage = if (memoryInfos.isNotEmpty()) memoryInfos[0].totalPss.toLong() else 0L
             RunningApp(
                 packageName = packageName,
                 processName = process.processName,

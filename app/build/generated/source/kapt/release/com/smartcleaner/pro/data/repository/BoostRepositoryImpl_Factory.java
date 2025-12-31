@@ -17,7 +17,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class BoostRepositoryImpl_Factory implements Factory<BoostRepositoryImpl> {
   private final Provider<Context> contextProvider;

@@ -17,7 +17,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class RepositoryModule_Companion_ProvideWhitelistedAppDaoFactory implements Factory<WhitelistedAppDao> {
   private final Provider<PhoneCleanerDatabase> databaseProvider;

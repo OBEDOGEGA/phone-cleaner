@@ -4,6 +4,7 @@ package com.smartcleaner.pro.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,14 +22,19 @@ public final class FragmentSettingsBinding implements ViewBinding {
   private final ConstraintLayout rootView;
 
   @NonNull
+  public final Spinner autoCleanIntervalSpinner;
+
+  @NonNull
   public final NativeAdView nativeAdView;
 
   @NonNull
   public final TextView titleText;
 
   private FragmentSettingsBinding(@NonNull ConstraintLayout rootView,
-      @NonNull NativeAdView nativeAdView, @NonNull TextView titleText) {
+      @NonNull Spinner autoCleanIntervalSpinner, @NonNull NativeAdView nativeAdView,
+      @NonNull TextView titleText) {
     this.rootView = rootView;
+    this.autoCleanIntervalSpinner = autoCleanIntervalSpinner;
     this.nativeAdView = nativeAdView;
     this.titleText = titleText;
   }
@@ -60,6 +66,12 @@ public final class FragmentSettingsBinding implements ViewBinding {
     // This is done to optimize the compiled bytecode for size and performance.
     int id;
     missingId: {
+      id = R.id.autoCleanIntervalSpinner;
+      Spinner autoCleanIntervalSpinner = ViewBindings.findChildViewById(rootView, id);
+      if (autoCleanIntervalSpinner == null) {
+        break missingId;
+      }
+
       id = R.id.native_ad_view;
       NativeAdView nativeAdView = ViewBindings.findChildViewById(rootView, id);
       if (nativeAdView == null) {
@@ -72,7 +84,8 @@ public final class FragmentSettingsBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentSettingsBinding((ConstraintLayout) rootView, nativeAdView, titleText);
+      return new FragmentSettingsBinding((ConstraintLayout) rootView, autoCleanIntervalSpinner,
+          nativeAdView, titleText);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

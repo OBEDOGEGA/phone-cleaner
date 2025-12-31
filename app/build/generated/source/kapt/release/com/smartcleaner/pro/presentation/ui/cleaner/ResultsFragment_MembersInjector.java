@@ -14,7 +14,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class ResultsFragment_MembersInjector implements MembersInjector<ResultsFragment> {
   private final Provider<AdManager> adManagerProvider;

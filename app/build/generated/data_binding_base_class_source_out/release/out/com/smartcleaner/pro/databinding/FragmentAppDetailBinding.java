@@ -27,10 +27,22 @@ public final class FragmentAppDetailBinding implements ViewBinding {
   public final LinearLayout actionButtons;
 
   @NonNull
+  public final TextView apkSize;
+
+  @NonNull
   public final ImageView appIcon;
 
   @NonNull
   public final TextView appName;
+
+  @NonNull
+  public final TextView appStatus;
+
+  @NonNull
+  public final TextView cacheSize;
+
+  @NonNull
+  public final TextView dataSize;
 
   @NonNull
   public final TextView installDate;
@@ -48,6 +60,9 @@ public final class FragmentAppDetailBinding implements ViewBinding {
   public final TextView permissionsTitle;
 
   @NonNull
+  public final TextView sdkInfo;
+
+  @NonNull
   public final TextView storageInfo;
 
   @NonNull
@@ -57,19 +72,26 @@ public final class FragmentAppDetailBinding implements ViewBinding {
   public final TextView versionInfo;
 
   private FragmentAppDetailBinding(@NonNull ScrollView rootView,
-      @NonNull LinearLayout actionButtons, @NonNull ImageView appIcon, @NonNull TextView appName,
-      @NonNull TextView installDate, @NonNull Button moveToSdBtn, @NonNull TextView packageName,
-      @NonNull RecyclerView permissionsRecycler, @NonNull TextView permissionsTitle,
-      @NonNull TextView storageInfo, @NonNull Button uninstallBtn, @NonNull TextView versionInfo) {
+      @NonNull LinearLayout actionButtons, @NonNull TextView apkSize, @NonNull ImageView appIcon,
+      @NonNull TextView appName, @NonNull TextView appStatus, @NonNull TextView cacheSize,
+      @NonNull TextView dataSize, @NonNull TextView installDate, @NonNull Button moveToSdBtn,
+      @NonNull TextView packageName, @NonNull RecyclerView permissionsRecycler,
+      @NonNull TextView permissionsTitle, @NonNull TextView sdkInfo, @NonNull TextView storageInfo,
+      @NonNull Button uninstallBtn, @NonNull TextView versionInfo) {
     this.rootView = rootView;
     this.actionButtons = actionButtons;
+    this.apkSize = apkSize;
     this.appIcon = appIcon;
     this.appName = appName;
+    this.appStatus = appStatus;
+    this.cacheSize = cacheSize;
+    this.dataSize = dataSize;
     this.installDate = installDate;
     this.moveToSdBtn = moveToSdBtn;
     this.packageName = packageName;
     this.permissionsRecycler = permissionsRecycler;
     this.permissionsTitle = permissionsTitle;
+    this.sdkInfo = sdkInfo;
     this.storageInfo = storageInfo;
     this.uninstallBtn = uninstallBtn;
     this.versionInfo = versionInfo;
@@ -108,6 +130,12 @@ public final class FragmentAppDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.apk_size;
+      TextView apkSize = ViewBindings.findChildViewById(rootView, id);
+      if (apkSize == null) {
+        break missingId;
+      }
+
       id = R.id.app_icon;
       ImageView appIcon = ViewBindings.findChildViewById(rootView, id);
       if (appIcon == null) {
@@ -117,6 +145,24 @@ public final class FragmentAppDetailBinding implements ViewBinding {
       id = R.id.app_name;
       TextView appName = ViewBindings.findChildViewById(rootView, id);
       if (appName == null) {
+        break missingId;
+      }
+
+      id = R.id.app_status;
+      TextView appStatus = ViewBindings.findChildViewById(rootView, id);
+      if (appStatus == null) {
+        break missingId;
+      }
+
+      id = R.id.cache_size;
+      TextView cacheSize = ViewBindings.findChildViewById(rootView, id);
+      if (cacheSize == null) {
+        break missingId;
+      }
+
+      id = R.id.data_size;
+      TextView dataSize = ViewBindings.findChildViewById(rootView, id);
+      if (dataSize == null) {
         break missingId;
       }
 
@@ -150,6 +196,12 @@ public final class FragmentAppDetailBinding implements ViewBinding {
         break missingId;
       }
 
+      id = R.id.sdk_info;
+      TextView sdkInfo = ViewBindings.findChildViewById(rootView, id);
+      if (sdkInfo == null) {
+        break missingId;
+      }
+
       id = R.id.storage_info;
       TextView storageInfo = ViewBindings.findChildViewById(rootView, id);
       if (storageInfo == null) {
@@ -168,9 +220,9 @@ public final class FragmentAppDetailBinding implements ViewBinding {
         break missingId;
       }
 
-      return new FragmentAppDetailBinding((ScrollView) rootView, actionButtons, appIcon, appName,
-          installDate, moveToSdBtn, packageName, permissionsRecycler, permissionsTitle, storageInfo,
-          uninstallBtn, versionInfo);
+      return new FragmentAppDetailBinding((ScrollView) rootView, actionButtons, apkSize, appIcon,
+          appName, appStatus, cacheSize, dataSize, installDate, moveToSdBtn, packageName,
+          permissionsRecycler, permissionsTitle, sdkInfo, storageInfo, uninstallBtn, versionInfo);
     }
     String missingId = rootView.getResources().getResourceName(id);
     throw new NullPointerException("Missing required view with ID: ".concat(missingId));

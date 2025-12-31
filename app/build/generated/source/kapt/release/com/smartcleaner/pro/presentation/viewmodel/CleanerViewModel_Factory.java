@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class CleanerViewModel_Factory implements Factory<CleanerViewModel> {
   private final Provider<ICleanUseCase> cleanUseCaseProvider;

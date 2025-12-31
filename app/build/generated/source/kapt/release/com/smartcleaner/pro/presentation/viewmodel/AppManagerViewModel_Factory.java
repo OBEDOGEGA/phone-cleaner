@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class AppManagerViewModel_Factory implements Factory<AppManagerViewModel> {
   private final Provider<IAnalyzeUseCase> analyzeUseCaseProvider;

@@ -16,7 +16,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class FeatureUnlockHelper_Factory implements Factory<FeatureUnlockHelper> {
   private final Provider<Context> contextProvider;

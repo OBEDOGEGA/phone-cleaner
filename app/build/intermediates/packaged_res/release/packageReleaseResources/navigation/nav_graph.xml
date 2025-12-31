@@ -15,7 +15,18 @@
             app:destination="@id/scanFragment"
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_batteryFragment"
+            app:destination="@id/batteryFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out" />
     </fragment>
+
+    <fragment
+        android:id="@+id/batteryFragment"
+        android:name="com.smartcleaner.pro.presentation.ui.battery.BatteryFragment"
+        android:label="Battery Optimization"
+        tools:layout="@layout/fragment_battery" />
 
     <fragment
         android:id="@+id/boostFragment"

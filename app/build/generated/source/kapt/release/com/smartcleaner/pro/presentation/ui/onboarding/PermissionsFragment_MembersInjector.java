@@ -14,7 +14,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class PermissionsFragment_MembersInjector implements MembersInjector<PermissionsFragment> {
   private final Provider<PermissionManager> permissionManagerProvider;

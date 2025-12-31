@@ -16,7 +16,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class ConsentManager_Factory implements Factory<ConsentManager> {
   private final Provider<Context> contextProvider;

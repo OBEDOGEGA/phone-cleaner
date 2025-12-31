@@ -15,7 +15,8 @@ import javax.inject.Provider;
     "unchecked",
     "rawtypes",
     "KotlinInternal",
-    "KotlinInternalInJava"
+    "KotlinInternalInJava",
+    "cast"
 })
 public final class CleanUseCaseImpl_Factory implements Factory<CleanUseCaseImpl> {
   private final Provider<ICleanRepository> cleanRepositoryProvider;

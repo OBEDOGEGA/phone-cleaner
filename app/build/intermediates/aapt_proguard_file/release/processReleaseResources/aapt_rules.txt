@@ -22,6 +22,7 @@
 -keep class com.smartcleaner.pro.MainActivity { <init>(); }
 -keep class com.smartcleaner.pro.SmartCleanerApp { <init>(); }
 -keep class com.smartcleaner.pro.presentation.ui.onboarding.OnboardingActivity { <init>(); }
+-keep class com.smartcleaner.pro.presentation.widget.CleanerWidgetProvider { <init>(); }
 -keep class android.widget.Space { <init>(android.content.Context, android.util.AttributeSet); }
 
 -keep class androidx.appcompat.app.AlertController$RecycleListView { <init>(android.content.Context, android.util.AttributeSet); }
@@ -135,6 +136,8 @@
 -keep class com.smartcleaner.pro.presentation.ui.appmanager.AppDetailFragment { <init>(...); }
 
 -keep class com.smartcleaner.pro.presentation.ui.appmanager.AppListFragment { <init>(...); }
+
+-keep class com.smartcleaner.pro.presentation.ui.battery.BatteryFragment { <init>(...); }
 
 -keep class com.smartcleaner.pro.presentation.ui.boost.MemoryBoosterFragment { <init>(...); }
 
