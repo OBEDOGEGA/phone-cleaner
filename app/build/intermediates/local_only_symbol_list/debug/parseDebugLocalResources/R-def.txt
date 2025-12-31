@@ -76,9 +76,11 @@ drawable ic_duplicate
 drawable ic_large_file
 drawable ic_launcher
 drawable item_background
+drawable widget_background
 id action_appListFragment_to_appDetailFragment
 id action_buttons
 id action_cleanFragment_to_summaryFragment
+id action_dashboardFragment_to_batteryFragment
 id action_dashboardFragment_to_scanFragment
 id action_resultsFragment_to_cleanFragment
 id action_scanFragment_to_resultsFragment
@@ -90,6 +92,7 @@ id ad_app_icon
 id ad_body
 id ad_call_to_action
 id ad_headline
+id apk_size
 id appDetailFragment
 id appListFragment
 id appNameTextView
@@ -98,10 +101,21 @@ id app_icon
 id app_manager
 id app_name
 id app_size
+id app_status
 id app_type
 id apps_recycler_view
+id autoCleanIntervalSpinner
+id autoSyncSwitch
+id backgroundAppsButton
+id bannerAdContainer
 id banner_ad_container
 id batch_layout
+id batteryCard
+id batteryFragment
+id batteryHealthText
+id batteryLevelText
+id batteryProgress
+id batterySaverSwitch
 id battery_health_value
 id battery_progress
 id battery_saver
@@ -113,6 +127,7 @@ id bottom_navigation
 id btnGrantPermissions
 id btnNext
 id btnSkip
+id cache_size
 id categoryText
 id checkBox
 id checkbox
@@ -125,6 +140,7 @@ id cleaningStatus
 id clear_selection_btn
 id confettiAnimation
 id dashboardFragment
+id data_size
 id doneButton
 id duplicateCount
 id duplicateFinderFragment
@@ -155,6 +171,9 @@ id native_ad_view
 id nav_graph
 id nav_host_fragment
 id one_tap_boost
+id optimizationCard
+id optimizationResult
+id optimizeBatteryButton
 id package_name
 id permissionMessage
 id permissions_recycler
@@ -171,6 +190,9 @@ id scanProgressBar
 id scanningAnimation
 id scanningStatus
 id scanningText
+id screenTimeoutButton
+id screenTimeoutText
+id sdk_info
 id selectAllButton
 id select_all_btn
 id settingsFragment
@@ -212,10 +234,14 @@ id viewPager
 id watchAdButton
 id weekly_performance_value
 id whitelistCheckBox
+id widget_container
+id widget_storage_free
+id widget_storage_used
 layout activity_main
 layout activity_onboarding
 layout fragment_app_detail
 layout fragment_app_list
+layout fragment_battery
 layout fragment_clean
 layout fragment_dashboard
 layout fragment_demo
@@ -238,6 +264,7 @@ layout item_permission
 layout item_running_app
 layout item_tool
 layout native_ad_layout
+layout widget_cleaner
 menu bottom_nav_menu
 navigation nav_graph
 raw cleaning_animation
@@ -276,3 +303,4 @@ string welcome_title
 style AppTheme
 style Theme.Smartcleanerpro
 styleable AppTheme colorBackground colorInverseSurface colorInverseOnSurface colorInversePrimary
+xml widget_cleaner_info

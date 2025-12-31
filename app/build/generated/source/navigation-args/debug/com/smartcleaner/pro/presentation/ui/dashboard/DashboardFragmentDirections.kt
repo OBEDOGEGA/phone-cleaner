@@ -8,5 +8,8 @@ public class DashboardFragmentDirections private constructor() {
   public companion object {
     public fun actionDashboardFragmentToScanFragment(): NavDirections =
         ActionOnlyNavDirections(R.id.action_dashboardFragment_to_scanFragment)
+
+    public fun actionDashboardFragmentToBatteryFragment(): NavDirections =
+        ActionOnlyNavDirections(R.id.action_dashboardFragment_to_batteryFragment)
   }
 }

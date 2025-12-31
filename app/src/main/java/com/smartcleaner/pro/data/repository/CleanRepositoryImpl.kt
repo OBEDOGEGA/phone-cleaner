@@ -277,7 +277,7 @@ class CleanRepositoryImpl @Inject constructor(
         items
     }
 
-    override suspend fun scheduleAutoClean(intervalHours: Int) = withContext(Dispatchers.IO) {
+    override suspend fun scheduleAutoClean(intervalHours: Int) {
         val workRequest = PeriodicWorkRequestBuilder<ScheduledCleaningWorker>(intervalHours.toLong(), TimeUnit.HOURS)
             .build()
         WorkManager.getInstance(context).enqueueUniquePeriodicWork(
@@ -287,7 +287,7 @@ class CleanRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun cancelAutoClean() = withContext(Dispatchers.IO) {
+    override suspend fun cancelAutoClean() {
         WorkManager.getInstance(context).cancelUniqueWork("auto_clean")
     }
 }

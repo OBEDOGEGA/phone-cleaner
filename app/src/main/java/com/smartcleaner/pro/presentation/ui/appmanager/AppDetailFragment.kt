@@ -73,8 +73,23 @@ class AppDetailFragment : BaseFragment() {
         binding.appName.text = appInfo.appName
         binding.packageName.text = appInfo.packageName
         binding.versionInfo.text = "Version: ${appInfo.versionName} (${appInfo.versionCode})"
-        binding.storageInfo.text = "Size: ${formatSize(appInfo.size)}"
+        binding.storageInfo.text = "Total Size: ${formatSize(appInfo.size)}"
         binding.installDate.text = "Installed: ${formatDate(appInfo.firstInstallTime)}"
+
+        // Display additional storage breakdown
+        binding.cacheSize.text = "Cache: ${formatSize(appInfo.cacheSize)}"
+        binding.dataSize.text = "Data: ${formatSize(appInfo.dataSize)}"
+        binding.apkSize.text = "APK: ${formatSize(appInfo.apkSize)}"
+
+        // Display SDK information
+        binding.sdkInfo.text = "Target SDK: ${appInfo.targetSdkVersion} | Min SDK: ${appInfo.minSdkVersion}"
+
+        // Display app status
+        binding.appStatus.text = when {
+            !appInfo.isEnabled -> "Disabled"
+            appInfo.isRunning -> "Running"
+            else -> "Stopped"
+        }
 
         permissionsAdapter.submitList(appInfo.permissions)
     }

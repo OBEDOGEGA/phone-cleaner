@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:2:1-46:12
-INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:2:1-46:12
+ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:2:1-58:12
+INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:2:1-58:12
+INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:2:1-58:12
+INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:2:1-58:12
 MERGED from [androidx.databinding:viewbinding:8.4.0] /home/codespace/.gradle/caches/8.10.2/transforms/eb813ae5571dd6f835cd04398f02351e/transformed/viewbinding-8.4.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.navigation:navigation-common:2.7.6] /home/codespace/.gradle/caches/8.10.2/transforms/abef01e724240ede085612095bce6b0b/transformed/navigation-common-2.7.6/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.7.6] /home/codespace/.gradle/caches/8.10.2/transforms/7107fca94d3e0ad694e7d73ab04b4b23/transformed/navigation-common-ktx-2.7.6/AndroidManifest.xml:2:1-7:12
@@ -164,8 +164,8 @@ REJECTED from [androidx.work:work-runtime:2.9.0] /home/codespace/.gradle/caches/
 	android:name
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:17:22-78
 application
-ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:19:5-44:19
-INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:19:5-44:19
+ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:19:5-56:19
+INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:19:5-56:19
 MERGED from [com.google.android.material:material:1.10.0] /home/codespace/.gradle/caches/8.10.2/transforms/11ad92583bf709c78fd15d9b5831fd80/transformed/material-1.10.0/AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.10.0] /home/codespace/.gradle/caches/8.10.2/transforms/11ad92583bf709c78fd15d9b5831fd80/transformed/material-1.10.0/AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] /home/codespace/.gradle/caches/8.10.2/transforms/9c6a3af9d429a7847eb735b0671dcd6f/transformed/constraintlayout-2.1.4/AndroidManifest.xml:9:5-20
@@ -250,6 +250,24 @@ ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:39:9-42:20
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:41:13-36
 	android:name
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:40:13-41
+receiver#com.smartcleaner.pro.presentation.widget.CleanerWidgetProvider
+ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:45:9-54:20
+	android:exported
+		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:47:13-36
+	android:name
+		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:46:13-70
+intent-filter#action:name:android.appwidget.action.APPWIDGET_UPDATE
+ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:48:13-50:29
+action#android.appwidget.action.APPWIDGET_UPDATE
+ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:49:17-84
+	android:name
+		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:49:25-81
+meta-data#android.appwidget.provider
+ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:51:13-53:63
+	android:resource
+		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:53:17-60
+	android:name
+		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:52:17-58
 uses-sdk
 INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml
