@@ -3,20 +3,27 @@ package com.smartcleaner.pro.data.repository
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Environment
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.smartcleaner.pro.data.local.CleaningHistory
 import com.smartcleaner.pro.data.local.CleaningHistoryDao
+import com.smartcleaner.pro.data.worker.ScheduledCleaningWorker
 import com.smartcleaner.pro.domain.model.JunkItem
 import com.smartcleaner.pro.domain.model.JunkType
 import com.smartcleaner.pro.domain.repository.ICleanRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class CleanRepositoryImpl @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val cleaningHistoryDao: CleaningHistoryDao
 ) : ICleanRepository {
 
@@ -268,5 +275,19 @@ class CleanRepositoryImpl @Inject constructor(
         }
 
         items
+    }
+
+    override suspend fun scheduleAutoClean(intervalHours: Int) = withContext(Dispatchers.IO) {
+        val workRequest = PeriodicWorkRequestBuilder<ScheduledCleaningWorker>(intervalHours.toLong(), TimeUnit.HOURS)
+            .build()
+        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+            "auto_clean",
+            ExistingPeriodicWorkPolicy.REPLACE,
+            workRequest
+        )
+    }
+
+    override suspend fun cancelAutoClean() = withContext(Dispatchers.IO) {
+        WorkManager.getInstance(context).cancelUniqueWork("auto_clean")
     }
 }

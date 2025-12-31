@@ -10,7 +10,7 @@ import dagger.internal.ScopeMetadata;
 import javax.inject.Provider;
 
 @ScopeMetadata
-@QualifierMetadata
+@QualifierMetadata("dagger.hilt.android.qualifiers.ApplicationContext")
 @DaggerGenerated
 @SuppressWarnings({
     "unchecked",

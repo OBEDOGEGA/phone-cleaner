@@ -13,6 +13,7 @@ import com.smartcleaner.pro.data.local.WhitelistedApp
 import com.smartcleaner.pro.data.local.WhitelistedAppDao
 import com.smartcleaner.pro.domain.model.RunningApp
 import com.smartcleaner.pro.domain.repository.IBoostRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class BoostRepositoryImpl @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val sharedPreferences: SharedPreferences,
     private val whitelistedAppDao: WhitelistedAppDao
 ) : IBoostRepository {

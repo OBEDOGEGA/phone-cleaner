@@ -81,7 +81,7 @@ class DashboardFragment : Fragment() {
         }
 
         binding.batterySaver.setOnClickListener {
-            // Placeholder: Navigate to battery saver
+            findNavController().navigate(R.id.action_dashboardFragment_to_batteryFragment)
         }
 
         binding.appManager.setOnClickListener {

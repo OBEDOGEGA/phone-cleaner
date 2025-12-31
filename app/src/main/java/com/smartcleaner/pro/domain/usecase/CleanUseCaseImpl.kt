@@ -20,4 +20,12 @@ class CleanUseCaseImpl @Inject constructor(
     override suspend fun getTotalJunkSize(): Long {
         return cleanRepository.getTotalJunkSize()
     }
+
+    override suspend fun scheduleAutoClean(intervalHours: Int) {
+        cleanRepository.scheduleAutoClean(intervalHours)
+    }
+
+    override suspend fun cancelAutoClean() {
+        cleanRepository.cancelAutoClean()
+    }
 }
