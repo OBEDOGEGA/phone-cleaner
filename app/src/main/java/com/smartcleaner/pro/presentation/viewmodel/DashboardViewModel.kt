@@ -76,6 +76,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun loadMockStats() {
+        android.util.Log.d("DashboardViewModel", "Loading mock stats - todaySavings: 2.5 GB, weeklyPerformance: 85%")
         _todaySavings.value = "2.5 GB"
         _weeklyPerformance.value = "85%"
     }

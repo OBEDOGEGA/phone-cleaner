@@ -73,19 +73,43 @@ class DashboardFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.oneTapBoost.setOnClickListener {
-            // Placeholder: Navigate to boost screen
+            android.util.Log.d("DashboardFragment", "One tap boost clicked")
+            try {
+                findNavController().navigate(R.id.action_dashboardFragment_to_boostFragment)
+                android.util.Log.d("DashboardFragment", "Navigation to boostFragment successful")
+            } catch (e: Exception) {
+                android.util.Log.e("DashboardFragment", "Navigation to boostFragment failed", e)
+            }
         }
 
         binding.cleanNow.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_scanFragment)
+            android.util.Log.d("DashboardFragment", "Clean now clicked")
+            try {
+                findNavController().navigate(R.id.action_dashboardFragment_to_scanFragment)
+                android.util.Log.d("DashboardFragment", "Navigation to scanFragment successful")
+            } catch (e: Exception) {
+                android.util.Log.e("DashboardFragment", "Navigation to scanFragment failed", e)
+            }
         }
 
         binding.batterySaver.setOnClickListener {
-            findNavController().navigate(R.id.action_dashboardFragment_to_batteryFragment)
+            android.util.Log.d("DashboardFragment", "Battery saver clicked")
+            try {
+                findNavController().navigate(R.id.action_dashboardFragment_to_batteryFragment)
+                android.util.Log.d("DashboardFragment", "Navigation to batteryFragment successful")
+            } catch (e: Exception) {
+                android.util.Log.e("DashboardFragment", "Navigation to batteryFragment failed", e)
+            }
         }
 
         binding.appManager.setOnClickListener {
-            // Placeholder: Navigate to app manager
+            android.util.Log.d("DashboardFragment", "App manager clicked")
+            try {
+                findNavController().navigate(R.id.action_dashboardFragment_to_appListFragment)
+                android.util.Log.d("DashboardFragment", "Navigation to appListFragment successful")
+            } catch (e: Exception) {
+                android.util.Log.e("DashboardFragment", "Navigation to appListFragment failed", e)
+            }
         }
     }
 

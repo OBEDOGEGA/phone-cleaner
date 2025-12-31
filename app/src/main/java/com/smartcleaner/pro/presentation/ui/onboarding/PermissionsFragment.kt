@@ -26,12 +26,17 @@ class PermissionsFragment : Fragment() {
     ) { permissions ->
         // Handle permission results
         val allGranted = permissions.values.all { it }
-        if (allGranted) {
+        android.util.Log.d("PermissionsFragment", "Permission results: $permissions, allGranted: $allGranted")
+        android.util.Log.d("PermissionsFragment", "Checking special permissions - Usage Stats: ${permissionManager.hasPackageUsageStatsPermission()}, Battery Stats: ${permissionManager.hasBatteryStatsPermission()}")
+        if (allGranted && permissionManager.hasPackageUsageStatsPermission() && permissionManager.hasBatteryStatsPermission()) {
             // All permissions granted
             binding.tvStatus.text = getString(R.string.permissions_granted)
+            android.util.Log.d("PermissionsFragment", "All permissions granted including special permissions")
         } else {
             // Some permissions denied
             binding.tvStatus.text = getString(R.string.permissions_denied)
+            android.util.Log.w("PermissionsFragment", "Some permissions denied: ${permissions.filter { !it.value }}")
+            android.util.Log.w("PermissionsFragment", "Special permissions status - Usage Stats: ${permissionManager.hasPackageUsageStatsPermission()}, Battery Stats: ${permissionManager.hasBatteryStatsPermission()}")
         }
     }
 
@@ -66,6 +71,7 @@ class PermissionsFragment : Fragment() {
 
     private fun updatePermissionStatus() {
         val hasAll = permissionManager.hasAllPermissions()
+        android.util.Log.d("PermissionsFragment", "updatePermissionStatus: hasAllPermissions = $hasAll")
         binding.tvStatus.text = if (hasAll) {
             getString(R.string.permissions_granted)
         } else {

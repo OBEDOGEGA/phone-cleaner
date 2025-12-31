@@ -64,6 +64,7 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun completeOnboarding() {
+        android.util.Log.d("OnboardingActivity", "Completing onboarding")
         sharedPreferences.edit().putBoolean("onboarding_completed", true).apply()
         startMainActivity()
     }

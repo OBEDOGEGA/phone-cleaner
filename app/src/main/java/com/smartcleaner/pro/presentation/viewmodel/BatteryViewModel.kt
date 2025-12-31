@@ -81,9 +81,11 @@ class BatteryViewModel @Inject constructor(
     }
 
     fun setBatterySaverEnabled(enabled: Boolean) {
+        android.util.Log.d("BatteryViewModel", "setBatterySaverEnabled called with enabled=$enabled")
         // Note: Actually enabling/disabling battery saver requires system permissions
         // This is just for UI state management
         _isBatterySaverEnabled.value = enabled
+        android.util.Log.d("BatteryViewModel", "Battery saver UI state updated to $enabled")
 
         // In a real implementation, you would need to:
         // - Request WRITE_SECURE_SETTINGS permission (system app only)
