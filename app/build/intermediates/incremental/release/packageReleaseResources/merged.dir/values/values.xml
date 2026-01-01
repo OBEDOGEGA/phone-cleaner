@@ -82,7 +82,7 @@
     <string name="admob_native_ad_unit_id">ca-app-pub-9404247994579655/3553216639</string>
     <string name="admob_rewarded_ad_unit_id">ca-app-pub-9404247994579655/4866298305</string>
     <string name="admob_rewarded_interstitial_ad_unit_id">ca-app-pub-9404247994579655/7492461642</string>
-    <string name="app_name">SMART CLEANER PRO</string>
+    <string name="app_name">Smart Cleaner Pro</string>
     <string name="demo_description">Watch how Phone Cleaner Pro scans and optimizes your device.</string>
     <string name="demo_title">See It In Action</string>
     <string name="feature_analyze">• App Analysis: Monitor and manage installed apps</string>

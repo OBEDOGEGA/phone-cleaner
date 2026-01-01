@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SMART CLEANER PRO</string>
+    <string name="app_name">Smart Cleaner Pro</string>
 
     <!-- AdMob Ad Unit IDs -->
     <string name="admob_app_id">ca-app-pub-9404247994579655~5908465971</string>
