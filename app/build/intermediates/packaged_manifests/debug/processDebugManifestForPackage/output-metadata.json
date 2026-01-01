@@ -4,7 +4,7 @@
     "type": "PACKAGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "com.smartcleaner.pro",
+  "applicationId": "com.smartphonecleaner.pro",
   "variantName": "debug",
   "elements": [
     {

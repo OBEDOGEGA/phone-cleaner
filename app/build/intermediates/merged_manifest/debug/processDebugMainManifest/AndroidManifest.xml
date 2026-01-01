@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.smartcleaner.pro"
+    package="com.smartphonecleaner.pro"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -48,13 +48,13 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <permission
-        android:name="com.smartcleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+        android:name="com.smartphonecleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.smartcleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+    <uses-permission android:name="com.smartphonecleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 
     <application
-        android:name="com.smartcleaner.pro.SmartCleanerApp"
+        android:name="com.smartphonecleaner.pro.SmartCleanerApp"
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
@@ -67,7 +67,7 @@
             android:value="ca-app-pub-9404247994579655~5908465971" />
 
         <activity
-            android:name="com.smartcleaner.pro.presentation.ui.onboarding.OnboardingActivity"
+            android:name="com.smartphonecleaner.pro.presentation.ui.onboarding.OnboardingActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,13 +76,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.smartcleaner.pro.MainActivity"
+            android:name="com.smartphonecleaner.pro.MainActivity"
             android:exported="true" >
         </activity>
 
         <!-- Widget Provider -->
         <receiver
-            android:name="com.smartcleaner.pro.presentation.widget.CleanerWidgetProvider"
+            android:name="com.smartphonecleaner.pro.presentation.widget.CleanerWidgetProvider"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -102,7 +102,7 @@
 
         <provider
             android:name="com.google.android.gms.ads.MobileAdsInitProvider"
-            android:authorities="com.smartcleaner.pro.mobileadsinitprovider"
+            android:authorities="com.smartphonecleaner.pro.mobileadsinitprovider"
             android:exported="false"
             android:initOrder="100" />
 
@@ -138,7 +138,7 @@
 
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.smartcleaner.pro.androidx-startup"
+            android:authorities="com.smartphonecleaner.pro.androidx-startup"
             android:exported="false" >
             <meta-data
                 android:name="androidx.emoji2.text.EmojiCompatInitializer"

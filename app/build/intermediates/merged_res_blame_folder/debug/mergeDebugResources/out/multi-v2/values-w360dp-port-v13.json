@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.smartcleaner.pro.app-mergeDebugResources-61:/values-w360dp-port-v13/values-w360dp-port-v13.xml",
+            "outputFile": "com.smartphonecleaner.pro.app-mergeDebugResources-61:/values-w360dp-port-v13/values-w360dp-port-v13.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/8.10.2/transforms/11ad92583bf709c78fd15d9b5831fd80/transformed/material-1.10.0/res/values-w360dp-port-v13/values-w360dp-port-v13.xml",

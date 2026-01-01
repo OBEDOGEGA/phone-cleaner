@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/dashboardFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.dashboard.DashboardFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.dashboard.DashboardFragment"
         android:label="Dashboard"
         tools:layout="@layout/fragment_dashboard">
         <action
@@ -34,18 +34,18 @@
 
     <fragment
         android:id="@+id/batteryFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.battery.BatteryFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.battery.BatteryFragment"
         android:label="Battery Optimization"
         tools:layout="@layout/fragment_battery" />
 
     <fragment
         android:id="@+id/boostFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.boost.MemoryBoosterFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.boost.MemoryBoosterFragment"
         android:label="Memory Booster" />
 
     <fragment
         android:id="@+id/toolsFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.tools.ToolsFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.tools.ToolsFragment"
         android:label="Tools">
         <action
             android:id="@+id/action_toolsFragment_to_duplicateFinderFragment"
@@ -57,12 +57,12 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.settings.SettingsFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.settings.SettingsFragment"
         android:label="Settings" />
 
     <fragment
         android:id="@+id/scanFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.cleaner.ScanFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.cleaner.ScanFragment"
         android:label="Scan">
         <action
             android:id="@+id/action_scanFragment_to_resultsFragment"
@@ -73,7 +73,7 @@
 
     <fragment
         android:id="@+id/resultsFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.cleaner.ResultsFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.cleaner.ResultsFragment"
         android:label="Results">
         <action
             android:id="@+id/action_resultsFragment_to_cleanFragment"
@@ -82,7 +82,7 @@
 
     <fragment
         android:id="@+id/cleanFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.cleaner.CleanFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.cleaner.CleanFragment"
         android:label="Clean">
         <action
             android:id="@+id/action_cleanFragment_to_summaryFragment"
@@ -93,12 +93,12 @@
 
     <fragment
         android:id="@+id/summaryFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.cleaner.SummaryFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.cleaner.SummaryFragment"
         android:label="Summary" />
 
     <fragment
         android:id="@+id/appListFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.appmanager.AppListFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.appmanager.AppListFragment"
         android:label="App Manager">
         <action
             android:id="@+id/action_appListFragment_to_appDetailFragment"
@@ -107,7 +107,7 @@
 
     <fragment
         android:id="@+id/appDetailFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.appmanager.AppDetailFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.appmanager.AppDetailFragment"
         android:label="App Details">
         <argument
             android:name="packageName"
@@ -116,12 +116,12 @@
 
     <fragment
         android:id="@+id/duplicateFinderFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.tools.DuplicateFinderFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.tools.DuplicateFinderFragment"
         android:label="Duplicate Files" />
 
     <fragment
         android:id="@+id/largeFilesFragment"
-        android:name="com.smartcleaner.pro.presentation.ui.tools.LargeFilesFragment"
+        android:name="com.smartphonecleaner.pro.presentation.ui.tools.LargeFilesFragment"
         android:label="Large Files" />
 
 </navigation>

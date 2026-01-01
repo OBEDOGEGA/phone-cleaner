@@ -19,10 +19,10 @@
 -keep class com.google.android.gms.ads.NotificationHandlerActivity { <init>(); }
 -keep class com.google.android.gms.ads.OutOfContextTestingActivity { <init>(); }
 -keep class com.google.android.gms.common.api.GoogleApiActivity { <init>(); }
--keep class com.smartcleaner.pro.MainActivity { <init>(); }
--keep class com.smartcleaner.pro.SmartCleanerApp { <init>(); }
--keep class com.smartcleaner.pro.presentation.ui.onboarding.OnboardingActivity { <init>(); }
--keep class com.smartcleaner.pro.presentation.widget.CleanerWidgetProvider { <init>(); }
+-keep class com.smartphonecleaner.pro.MainActivity { <init>(); }
+-keep class com.smartphonecleaner.pro.SmartCleanerApp { <init>(); }
+-keep class com.smartphonecleaner.pro.presentation.ui.onboarding.OnboardingActivity { <init>(); }
+-keep class com.smartphonecleaner.pro.presentation.widget.CleanerWidgetProvider { <init>(); }
 -keep class android.widget.Space { <init>(android.content.Context, android.util.AttributeSet); }
 
 -keep class androidx.appcompat.app.AlertController$RecycleListView { <init>(android.content.Context, android.util.AttributeSet); }
@@ -133,29 +133,29 @@
 
 -keep class com.google.android.material.timepicker.TimePickerView { <init>(android.content.Context, android.util.AttributeSet); }
 
--keep class com.smartcleaner.pro.presentation.ui.appmanager.AppDetailFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.appmanager.AppDetailFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.appmanager.AppListFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.appmanager.AppListFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.battery.BatteryFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.battery.BatteryFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.boost.MemoryBoosterFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.boost.MemoryBoosterFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.cleaner.CleanFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.cleaner.CleanFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.cleaner.ResultsFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.cleaner.ResultsFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.cleaner.ScanFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.cleaner.ScanFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.cleaner.SummaryFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.cleaner.SummaryFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.dashboard.DashboardFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.dashboard.DashboardFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.settings.SettingsFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.settings.SettingsFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.tools.DuplicateFinderFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.tools.DuplicateFinderFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.tools.LargeFilesFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.tools.LargeFilesFragment { <init>(...); }
 
--keep class com.smartcleaner.pro.presentation.ui.tools.ToolsFragment { <init>(...); }
+-keep class com.smartphonecleaner.pro.presentation.ui.tools.ToolsFragment { <init>(...); }
 

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.smartcleaner.pro.app-mergeReleaseResources-61:/values-hu/values-hu.xml",
+            "outputFile": "com.smartphonecleaner.pro.app-mergeReleaseResources-61:/values-hu/values-hu.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/8.10.2/transforms/8a691c5d51a7339ec7013b8a2a1efacc/transformed/navigation-ui-2.7.6/res/values-hu/values-hu.xml",

@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.smartcleaner.pro"
+3    package="com.smartphonecleaner.pro"
 4    android:versionCode="1"
 5    android:versionName="1.0" >
 6
@@ -97,18 +97,18 @@
 49
 50    <permission
 50-->[androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
-51        android:name="com.smartcleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+51        android:name="com.smartphonecleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
 51-->[androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
 52        android:protectionLevel="signature" />
 52-->[androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
 53
-54    <uses-permission android:name="com.smartcleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+54    <uses-permission android:name="com.smartphonecleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
 54-->[androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
 54-->[androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
 55
 56    <application
 56-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:25:5-62:19
-57        android:name="com.smartcleaner.pro.SmartCleanerApp"
+57        android:name="com.smartphonecleaner.pro.SmartCleanerApp"
 57-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:26:9-40
 58        android:allowBackup="true"
 58-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:27:9-35
@@ -130,7 +130,7 @@
 67
 68        <activity
 68-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:36:9-43:20
-69            android:name="com.smartcleaner.pro.presentation.ui.onboarding.OnboardingActivity"
+69            android:name="com.smartphonecleaner.pro.presentation.ui.onboarding.OnboardingActivity"
 69-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:37:13-74
 70            android:exported="true" >
 70-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:38:13-36
@@ -147,7 +147,7 @@
 76        </activity>
 77        <activity
 77-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:45:9-48:20
-78            android:name="com.smartcleaner.pro.MainActivity"
+78            android:name="com.smartphonecleaner.pro.MainActivity"
 78-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:46:13-41
 79            android:exported="true" >
 79-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:47:13-36
@@ -156,7 +156,7 @@
 82        <!-- Widget Provider -->
 83        <receiver
 83-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:51:9-60:20
-84            android:name="com.smartcleaner.pro.presentation.widget.CleanerWidgetProvider"
+84            android:name="com.smartphonecleaner.pro.presentation.widget.CleanerWidgetProvider"
 84-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:52:13-70
 85            android:exported="true" >
 85-->/workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:53:13-36
@@ -191,7 +191,7 @@
 102-->[com.google.android.gms:play-services-ads-lite:23.0.0] /home/codespace/.gradle/caches/8.10.2/transforms/5c16f4d0259af56a9c1b1e3b6b35a213/transformed/play-services-ads-lite-23.0.0/AndroidManifest.xml:63:9-68:43
 103            android:name="com.google.android.gms.ads.MobileAdsInitProvider"
 103-->[com.google.android.gms:play-services-ads-lite:23.0.0] /home/codespace/.gradle/caches/8.10.2/transforms/5c16f4d0259af56a9c1b1e3b6b35a213/transformed/play-services-ads-lite-23.0.0/AndroidManifest.xml:64:13-76
-104            android:authorities="com.smartcleaner.pro.mobileadsinitprovider"
+104            android:authorities="com.smartphonecleaner.pro.mobileadsinitprovider"
 104-->[com.google.android.gms:play-services-ads-lite:23.0.0] /home/codespace/.gradle/caches/8.10.2/transforms/5c16f4d0259af56a9c1b1e3b6b35a213/transformed/play-services-ads-lite-23.0.0/AndroidManifest.xml:65:13-73
 105            android:exported="false"
 105-->[com.google.android.gms:play-services-ads-lite:23.0.0] /home/codespace/.gradle/caches/8.10.2/transforms/5c16f4d0259af56a9c1b1e3b6b35a213/transformed/play-services-ads-lite-23.0.0/AndroidManifest.xml:66:13-37
@@ -257,7 +257,7 @@
 138-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/8.10.2/transforms/fba6fb478ed99504dd1238ee80028478/transformed/emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
 139            android:name="androidx.startup.InitializationProvider"
 139-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/8.10.2/transforms/fba6fb478ed99504dd1238ee80028478/transformed/emoji2-1.2.0/AndroidManifest.xml:25:13-67
-140            android:authorities="com.smartcleaner.pro.androidx-startup"
+140            android:authorities="com.smartphonecleaner.pro.androidx-startup"
 140-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/8.10.2/transforms/fba6fb478ed99504dd1238ee80028478/transformed/emoji2-1.2.0/AndroidManifest.xml:26:13-68
 141            android:exported="false" >
 141-->[androidx.emoji2:emoji2:1.2.0] /home/codespace/.gradle/caches/8.10.2/transforms/fba6fb478ed99504dd1238ee80028478/transformed/emoji2-1.2.0/AndroidManifest.xml:27:13-37

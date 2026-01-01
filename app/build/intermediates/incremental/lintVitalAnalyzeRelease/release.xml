@@ -1,6 +1,6 @@
 <variant
     name="release"
-    package="com.smartcleaner.pro"
+    package="com.smartphonecleaner.pro"
     minSdkVersion="24"
     targetSdkVersion="34"
     shrinking="true"
@@ -25,7 +25,7 @@
   <artifact
       classOutputs="build/intermediates/javac/release/compileReleaseJavaWithJavac/classes:build/tmp/kotlin-classes/release:build/tmp/kapt3/classes/release:build/kotlinToolingMetadata:build/intermediates/hilt/component_classes/release:build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/release/processReleaseResources/R.jar"
       type="MAIN"
-      applicationId="com.smartcleaner.pro"
+      applicationId="com.smartphonecleaner.pro"
       generatedSourceFolders="build/generated/source/navigation-args/release:build/generated/source/kapt/release:build/generated/ap_generated_sources/release/out:build/generated/data_binding_base_class_source_out/release/out"
       generatedResourceFolders="build/generated/res/resValues/release"
       desugaredMethodsFiles="/home/codespace/.gradle/caches/8.10.2/transforms/f821e7ac572b343108f3fd0e2190747c/transformed/D8BackportedDesugaredMethods.txt">

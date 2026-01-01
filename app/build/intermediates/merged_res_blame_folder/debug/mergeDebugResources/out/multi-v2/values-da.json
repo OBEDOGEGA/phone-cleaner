@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.smartcleaner.pro.app-mergeDebugResources-61:/values-da/values-da.xml",
+            "outputFile": "com.smartphonecleaner.pro.app-mergeDebugResources-61:/values-da/values-da.xml",
             "map": [
                 {
                     "source": "/home/codespace/.gradle/caches/8.10.2/transforms/11ad92583bf709c78fd15d9b5831fd80/transformed/material-1.10.0/res/values-da/values-da.xml",

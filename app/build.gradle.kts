@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.smartcleaner.pro"
+    namespace = "com.smartphonecleaner.pro"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.smartcleaner.pro"
+        applicationId = "com.smartphonecleaner.pro"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

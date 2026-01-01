@@ -89,7 +89,7 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /home/c
 MERGED from [androidx.print:print:1.0.0] /home/codespace/.gradle/caches/8.10.2/transforms/5dd42c1c72ed6bff34af7f2b22c45d39/transformed/print-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.dagger:dagger-lint-aar:2.51] /home/codespace/.gradle/caches/8.10.2/transforms/4ae010341e9b20fbec2d05df4e468e30/transformed/dagger-lint-aar-2.51/AndroidManifest.xml:16:1-19:12
 	package
-		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:3:5-35
+		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:3:5-40
 		INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml
@@ -238,7 +238,7 @@ ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:32:9-34:70
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:34:13-67
 	android:name
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:33:13-69
-activity#com.smartcleaner.pro.presentation.ui.onboarding.OnboardingActivity
+activity#com.smartphonecleaner.pro.presentation.ui.onboarding.OnboardingActivity
 ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:36:9-43:20
 	android:exported
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:38:13-36
@@ -246,13 +246,13 @@ ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:36:9-43:20
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:37:13-74
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
 ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:39:13-42:29
-activity#com.smartcleaner.pro.MainActivity
+activity#com.smartphonecleaner.pro.MainActivity
 ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:45:9-48:20
 	android:exported
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:47:13-36
 	android:name
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:46:13-41
-receiver#com.smartcleaner.pro.presentation.widget.CleanerWidgetProvider
+receiver#com.smartphonecleaner.pro.presentation.widget.CleanerWidgetProvider
 ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:51:9-60:20
 	android:exported
 		ADDED from /workspaces/phone-cleaner/app/src/main/AndroidManifest.xml:53:13-36
@@ -820,7 +820,7 @@ ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/tra
 		ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:23:9-81
-permission#com.smartcleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#com.smartphonecleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:24:9-44
@@ -830,7 +830,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
-uses-permission#com.smartcleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#com.smartphonecleaner.pro.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.12.0] /home/codespace/.gradle/caches/8.10.2/transforms/a5ac76a837d9efc83da23d6867f0e1bd/transformed/core-1.12.0/AndroidManifest.xml:26:22-94
