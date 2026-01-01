@@ -614,37 +614,37 @@ public final class DaggerSmartCleanerApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_smartphonecleaner_pro_presentation_viewmodel_BatteryViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.BatteryViewModel";
+      static String com_smartphonecleaner_pro_presentation_viewmodel_ToolsViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.ToolsViewModel";
 
       static String com_smartphonecleaner_pro_presentation_viewmodel_DashboardViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.DashboardViewModel";
-
-      static String com_smartphonecleaner_pro_presentation_viewmodel_SettingsViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.SettingsViewModel";
-
-      static String com_smartphonecleaner_pro_presentation_viewmodel_ToolsViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.ToolsViewModel";
 
       static String com_smartphonecleaner_pro_presentation_viewmodel_CleanerViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.CleanerViewModel";
 
       static String com_smartphonecleaner_pro_presentation_viewmodel_MemoryBoosterViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.MemoryBoosterViewModel";
 
+      static String com_smartphonecleaner_pro_presentation_viewmodel_BatteryViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.BatteryViewModel";
+
+      static String com_smartphonecleaner_pro_presentation_viewmodel_SettingsViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.SettingsViewModel";
+
       static String com_smartphonecleaner_pro_presentation_viewmodel_AppManagerViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.AppManagerViewModel";
 
       @KeepFieldType
-      BatteryViewModel com_smartphonecleaner_pro_presentation_viewmodel_BatteryViewModel2;
+      ToolsViewModel com_smartphonecleaner_pro_presentation_viewmodel_ToolsViewModel2;
 
       @KeepFieldType
       DashboardViewModel com_smartphonecleaner_pro_presentation_viewmodel_DashboardViewModel2;
-
-      @KeepFieldType
-      SettingsViewModel com_smartphonecleaner_pro_presentation_viewmodel_SettingsViewModel2;
-
-      @KeepFieldType
-      ToolsViewModel com_smartphonecleaner_pro_presentation_viewmodel_ToolsViewModel2;
 
       @KeepFieldType
       CleanerViewModel com_smartphonecleaner_pro_presentation_viewmodel_CleanerViewModel2;
 
       @KeepFieldType
       MemoryBoosterViewModel com_smartphonecleaner_pro_presentation_viewmodel_MemoryBoosterViewModel2;
+
+      @KeepFieldType
+      BatteryViewModel com_smartphonecleaner_pro_presentation_viewmodel_BatteryViewModel2;
+
+      @KeepFieldType
+      SettingsViewModel com_smartphonecleaner_pro_presentation_viewmodel_SettingsViewModel2;
 
       @KeepFieldType
       AppManagerViewModel com_smartphonecleaner_pro_presentation_viewmodel_AppManagerViewModel2;
@@ -720,13 +720,13 @@ public final class DaggerSmartCleanerApp_HiltComponents_SingletonC {
     private static final class LazyClassKeyProvider {
       static String com_smartphonecleaner_pro_presentation_viewmodel_ToolsViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.ToolsViewModel";
 
-      static String com_smartphonecleaner_pro_presentation_viewmodel_DashboardViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.DashboardViewModel";
-
-      static String com_smartphonecleaner_pro_presentation_viewmodel_MemoryBoosterViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.MemoryBoosterViewModel";
+      static String com_smartphonecleaner_pro_presentation_viewmodel_CleanerViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.CleanerViewModel";
 
       static String com_smartphonecleaner_pro_presentation_viewmodel_SettingsViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.SettingsViewModel";
 
-      static String com_smartphonecleaner_pro_presentation_viewmodel_CleanerViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.CleanerViewModel";
+      static String com_smartphonecleaner_pro_presentation_viewmodel_MemoryBoosterViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.MemoryBoosterViewModel";
+
+      static String com_smartphonecleaner_pro_presentation_viewmodel_DashboardViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.DashboardViewModel";
 
       static String com_smartphonecleaner_pro_presentation_viewmodel_BatteryViewModel = "com.smartphonecleaner.pro.presentation.viewmodel.BatteryViewModel";
 
@@ -736,16 +736,16 @@ public final class DaggerSmartCleanerApp_HiltComponents_SingletonC {
       ToolsViewModel com_smartphonecleaner_pro_presentation_viewmodel_ToolsViewModel2;
 
       @KeepFieldType
-      DashboardViewModel com_smartphonecleaner_pro_presentation_viewmodel_DashboardViewModel2;
-
-      @KeepFieldType
-      MemoryBoosterViewModel com_smartphonecleaner_pro_presentation_viewmodel_MemoryBoosterViewModel2;
+      CleanerViewModel com_smartphonecleaner_pro_presentation_viewmodel_CleanerViewModel2;
 
       @KeepFieldType
       SettingsViewModel com_smartphonecleaner_pro_presentation_viewmodel_SettingsViewModel2;
 
       @KeepFieldType
-      CleanerViewModel com_smartphonecleaner_pro_presentation_viewmodel_CleanerViewModel2;
+      MemoryBoosterViewModel com_smartphonecleaner_pro_presentation_viewmodel_MemoryBoosterViewModel2;
+
+      @KeepFieldType
+      DashboardViewModel com_smartphonecleaner_pro_presentation_viewmodel_DashboardViewModel2;
 
       @KeepFieldType
       BatteryViewModel com_smartphonecleaner_pro_presentation_viewmodel_BatteryViewModel2;
