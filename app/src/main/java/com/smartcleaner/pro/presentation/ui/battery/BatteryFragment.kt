@@ -31,14 +31,12 @@ class BatteryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        android.util.Log.d("BatteryFragment", "onCreateView called")
         _binding = FragmentBatteryBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        android.util.Log.d("BatteryFragment", "onViewCreated called")
 
         setupObservers()
         setupClickListeners()

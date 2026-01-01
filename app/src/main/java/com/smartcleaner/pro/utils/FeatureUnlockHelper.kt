@@ -3,6 +3,7 @@ package com.smartcleaner.pro.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import android.widget.Toast
 import com.smartcleaner.pro.data.remote.AdManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -205,21 +206,25 @@ class FeatureUnlockHelper @Inject constructor(
     fun setupRewardedAdCallback(featureToUnlock: String) {
         Log.d(TAG, "Setting up rewarded ad callback for feature: $featureToUnlock")
         adManager.onRewardedEarned = {
-            Log.d(TAG, "Rewarded ad callback triggered for feature: $featureToUnlock")
-            unlockFeature(featureToUnlock)
+            Log.d(TAG, "Rewarded ad callback triggered for feature: $featureToUnlock - about to unlock")
+            val unlockSuccess = unlockFeature(featureToUnlock)
+            Log.d(TAG, "Feature unlock result for $featureToUnlock: $unlockSuccess")
             trackFeatureUsage(featureToUnlock, "rewarded_unlocked")
         }
     }
 
     // Method to request feature unlock via rewarded ad
     fun requestFeatureUnlockViaRewardedAd(feature: String, activity: android.app.Activity,
-                                          onAdClosed: (() -> Unit)? = null) {
+                                           onAdClosed: (() -> Unit)? = null) {
         Log.d(TAG, "Requesting feature unlock via rewarded ad for: $feature")
 
         // Check if rewarded ad is loaded
-        if (!adManager.isRewardedAdLoaded()) {
+        val adLoaded = adManager.isRewardedAdLoaded()
+        Log.d(TAG, "Rewarded ad loaded status: $adLoaded for feature: $feature")
+        if (!adLoaded) {
             Log.w(TAG, "Rewarded ad not loaded for feature: $feature - cannot proceed")
-            // TODO: Show user-friendly message that ad is not ready
+            // Show user-friendly message that ad is not ready
+            Toast.makeText(activity, "Ad is not ready yet. Please try again in a moment.", Toast.LENGTH_SHORT).show()
             onAdClosed?.invoke()
             return
         }

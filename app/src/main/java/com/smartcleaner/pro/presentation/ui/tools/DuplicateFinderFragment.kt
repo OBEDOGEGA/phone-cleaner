@@ -156,14 +156,19 @@ class DuplicateFinderFragment : BaseFragment() {
     }
 
     private fun unlockFeature() {
+        Log.d("DuplicateFinderFragment", "unlockFeature called - checking if feature is already unlocked: ${featureUnlockHelper.duplicatePhotoFinderUnlocked()}")
         featureUnlockHelper.requestFeatureUnlockViaRewardedAd("duplicate_photo_finder", requireActivity()) {
+            Log.d("DuplicateFinderFragment", "Ad closed callback - checking if feature unlocked: ${featureUnlockHelper.duplicatePhotoFinderUnlocked()}")
             // After ad, check if unlocked and proceed
             if (featureUnlockHelper.duplicatePhotoFinderUnlocked()) {
+                Log.d("DuplicateFinderFragment", "Feature unlocked, proceeding with scan")
                 if (hasStoragePermission()) {
                     startScanning()
                 } else {
                     requestStoragePermission()
                 }
+            } else {
+                Log.d("DuplicateFinderFragment", "Feature still not unlocked after ad")
             }
         }
     }

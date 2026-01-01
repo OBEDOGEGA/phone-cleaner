@@ -1,8 +1,13 @@
 package com.smartcleaner.pro.presentation.ui.tools
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +25,10 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LargeFilesFragment : BaseFragment() {
 
+    companion object {
+        private const val TAG = "LargeFilesFragment"
+    }
+
     private var _binding: FragmentLargeFilesBinding? = null
     private val binding get() = _binding!!
 
@@ -32,10 +41,12 @@ class LargeFilesFragment : BaseFragment() {
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
+        Log.d(TAG, "Permission result: isGranted = $isGranted")
         if (isGranted) {
             startScanning()
         } else {
             // Show permission denied message
+            Log.d(TAG, "Permission denied, showing permission message")
             binding.permissionMessage.visibility = View.VISIBLE
             binding.scanButton.visibility = View.GONE
         }
@@ -52,14 +63,32 @@ class LargeFilesFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d(TAG, "onViewCreated called")
+
         setupRecyclerView()
         setupClickListeners()
         setupObservers()
 
-        if (hasStoragePermission()) {
+        checkPermissionAndScan()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume called")
+        // Check permission again in case user granted it in settings
+        checkPermissionAndScan()
+    }
+
+    private fun checkPermissionAndScan() {
+        val hasPermission = hasStoragePermission()
+        Log.d(TAG, "Storage permission status: $hasPermission")
+
+        if (hasPermission) {
             startScanning()
         } else {
-            requestStoragePermission()
+            // Show permission message
+            binding.permissionMessage.visibility = View.VISIBLE
+            binding.scanButton.visibility = View.GONE
         }
     }
 
@@ -73,6 +102,7 @@ class LargeFilesFragment : BaseFragment() {
 
     private fun setupClickListeners() {
         binding.scanButton.setOnClickListener {
+            Log.d(TAG, "Scan button clicked")
             if (hasStoragePermission()) {
                 startScanning()
             } else {
@@ -81,6 +111,7 @@ class LargeFilesFragment : BaseFragment() {
         }
 
         binding.grantPermissionButton.setOnClickListener {
+            Log.d(TAG, "Grant permission button clicked")
             requestStoragePermission()
         }
     }
@@ -117,14 +148,30 @@ class LargeFilesFragment : BaseFragment() {
     }
 
     private fun hasStoragePermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // For Android 11+, we need MANAGE_EXTERNAL_STORAGE for full file access
+            android.os.Environment.isExternalStorageManager()
+        } else {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        }
     }
 
     private fun requestStoragePermission() {
-        requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // For Android 11+, request MANAGE_EXTERNAL_STORAGE via settings
+            Log.d(TAG, "Requesting MANAGE_EXTERNAL_STORAGE via settings")
+            val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                data = Uri.parse("package:${requireContext().packageName}")
+            }
+            startActivity(intent)
+        } else {
+            // For older versions, request READ_EXTERNAL_STORAGE
+            Log.d(TAG, "Launching permission request for READ_EXTERNAL_STORAGE")
+            requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
     }
 
     private fun startScanning() {

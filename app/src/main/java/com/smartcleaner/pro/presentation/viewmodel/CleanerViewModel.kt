@@ -52,6 +52,7 @@ class CleanerViewModel @Inject constructor(
     fun startScanning() {
         if (scanJob?.isActive == true) return
 
+        android.util.Log.d("CleanerViewModel", "Starting scanning process")
         scanJob = viewModelScope.launch {
             _isScanning.value = true
             _scanProgress.value = 0
@@ -59,18 +60,25 @@ class CleanerViewModel @Inject constructor(
             // Simulate scanning progress
             for (i in 0..100 step 10) {
                 _scanProgress.value = i
+                android.util.Log.d("CleanerViewModel", "Scan progress: $i%")
                 delay(200)
             }
 
+            android.util.Log.d("CleanerViewModel", "Starting actual junk scan")
+            val startTime = System.currentTimeMillis()
             // Get actual junk items
             cleanUseCase.scanForJunk().collect { items ->
+                val scanTime = System.currentTimeMillis() - startTime
+                android.util.Log.d("CleanerViewModel", "Scan completed in ${scanTime}ms, found ${items.size} items")
                 _junkItems.value = items
                 val totalSize = items.sumOf { it.size }
                 _totalJunkSize.value = totalSize
+                android.util.Log.d("CleanerViewModel", "Total junk size: $totalSize bytes")
             }
 
             _scanProgress.value = 100
             _isScanning.value = false
+            android.util.Log.d("CleanerViewModel", "Scanning process finished")
         }
     }
 
