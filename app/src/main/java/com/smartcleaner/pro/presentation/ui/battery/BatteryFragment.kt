@@ -43,7 +43,7 @@ class BatteryFragment : Fragment() {
         setupObservers()
         setupClickListeners()
         loadBannerAd()
-        // loadBatteryInfo()
+        loadBatteryInfo()
     }
 
     private fun loadBannerAd() {
