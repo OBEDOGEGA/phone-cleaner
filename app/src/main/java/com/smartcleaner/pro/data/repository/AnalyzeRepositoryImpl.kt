@@ -57,12 +57,23 @@ class AnalyzeRepositoryImpl @Inject constructor(
 
     override suspend fun uninstallApp(packageName: String): Boolean = withContext(Dispatchers.IO) {
         try {
+            // Check REQUEST_DELETE_PACKAGES permission
+            val hasDeletePermission = android.content.pm.PackageManager.PERMISSION_GRANTED ==
+                context.checkSelfPermission(android.Manifest.permission.REQUEST_DELETE_PACKAGES)
+            android.util.Log.d("AnalyzeRepositoryImpl", "REQUEST_DELETE_PACKAGES granted: $hasDeletePermission")
+
+            if (!hasDeletePermission) {
+                android.util.Log.w("AnalyzeRepositoryImpl", "REQUEST_DELETE_PACKAGES not granted, cannot uninstall app")
+                return@withContext false
+            }
+
             val intent = android.content.Intent(android.content.Intent.ACTION_DELETE)
             intent.data = android.net.Uri.parse("package:$packageName")
             intent.flags = android.content.Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(intent)
             true // Assume success as we can't get direct feedback
         } catch (e: Exception) {
+            android.util.Log.e("AnalyzeRepositoryImpl", "Error uninstalling app: ${e.message}")
             false
         }
     }

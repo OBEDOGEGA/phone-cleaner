@@ -17,6 +17,7 @@ import com.smartcleaner.pro.utils.FeatureUnlockHelper
 import com.smartcleaner.pro.data.remote.AdManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import android.util.Log
 
 @AndroidEntryPoint
 class DuplicateFinderFragment : BaseFragment() {
@@ -93,6 +94,7 @@ class DuplicateFinderFragment : BaseFragment() {
         }
 
         binding.unlockButton.setOnClickListener {
+            Log.d("DuplicateFinderFragment", "Unlock button clicked for duplicate photo finder")
             unlockFeature()
         }
     }

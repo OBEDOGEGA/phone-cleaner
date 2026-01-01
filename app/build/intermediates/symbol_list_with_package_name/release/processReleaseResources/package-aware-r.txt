@@ -3310,7 +3310,9 @@ id action_buttons
 id action_cleanFragment_to_summaryFragment
 id action_container
 id action_context_bar
+id action_dashboardFragment_to_appListFragment
 id action_dashboardFragment_to_batteryFragment
+id action_dashboardFragment_to_boostFragment
 id action_dashboardFragment_to_scanFragment
 id action_divider
 id action_image

@@ -107,6 +107,9 @@ class AdManager @Inject constructor(
         loadRewardedInterstitialAd()
         loadNativeAd()
         loadAppOpenAd()
+
+        // Log initial state
+        Log.d(TAG, "AdManager initialized - rewarded ad loading started")
     }
 
     // Banner Ad Methods
@@ -282,11 +285,14 @@ class AdManager @Inject constructor(
     fun showRewardedAd(activity: Activity, onAdClosed: (() -> Unit)? = null) {
         val adToShow = rewardedAd ?: rewardedInterstitialAd
         val adUnitId = if (rewardedAd != null) rewardedAdUnitId else rewardedInterstitialAdUnitId
+        val adType = if (rewardedAd != null) "RewardedAd" else "RewardedInterstitialAd"
+
+        Log.d(TAG, "Attempting to show rewarded ad - Type: $adType, Available: ${adToShow != null}")
 
         adToShow?.let { ad ->
             val callback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
-                    Log.d(TAG, "Rewarded ad dismissed")
+                    Log.d(TAG, "$adType dismissed - reloading ad")
                     if (rewardedAd != null) {
                         loadRewardedAd()
                     } else {
@@ -296,12 +302,12 @@ class AdManager @Inject constructor(
                 }
 
                 override fun onAdFailedToShowFullScreenContent(error: AdError) {
-                    Log.e(TAG, "Rewarded ad failed to show: ${error.message}")
+                    Log.e(TAG, "$adType failed to show: ${error.message} (code: ${error.code})")
                     onAdClosed?.invoke()
                 }
 
                 override fun onAdShowedFullScreenContent() {
-                    Log.d(TAG, "Rewarded ad showed")
+                    Log.d(TAG, "$adType showed successfully")
                     trackAdImpression(adUnitId, "shown")
                     if (rewardedAd != null) {
                         rewardedAd = null
@@ -314,21 +320,23 @@ class AdManager @Inject constructor(
             when (ad) {
                 is RewardedAd -> {
                     ad.fullScreenContentCallback = callback
+                    Log.d(TAG, "Showing RewardedAd")
                     ad.show(activity) { rewardItem ->
-                        Log.d(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type}")
+                        Log.d(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type} - invoking callback")
                         onRewardedEarned?.invoke()
                     }
                 }
                 is RewardedInterstitialAd -> {
                     ad.fullScreenContentCallback = callback
+                    Log.d(TAG, "Showing RewardedInterstitialAd")
                     ad.show(activity) { rewardItem ->
-                        Log.d(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type}")
+                        Log.d(TAG, "User earned reward: ${rewardItem.amount} ${rewardItem.type} - invoking callback")
                         onRewardedEarned?.invoke()
                     }
                 }
             }
         } ?: run {
-            Log.d(TAG, "Rewarded ad not ready")
+            Log.w(TAG, "No rewarded ad available - rewardedAd: ${rewardedAd != null}, rewardedInterstitialAd: ${rewardedInterstitialAd != null}")
             onAdClosed?.invoke()
         }
     }
@@ -449,6 +457,8 @@ class AdManager @Inject constructor(
     }
 
     fun getAppOpenAd(): AppOpenAd? = appOpenAd
+
+    fun isRewardedAdLoaded(): Boolean = rewardedAd != null || rewardedInterstitialAd != null
 
     fun getNativeAd(): NativeAd? = nativeAd
 

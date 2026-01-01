@@ -99,10 +99,25 @@ class ScanFragment : Fragment() {
             ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
         }
 
-        if (allGranted) {
+        // Also check MANAGE_EXTERNAL_STORAGE for Android 11+
+        val hasManageStorage = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            android.os.Environment.isExternalStorageManager()
+        } else {
+            true
+        }
+
+        if (allGranted && hasManageStorage) {
             startScanning()
         } else {
-            requestPermissionLauncher.launch(permissions)
+            if (!hasManageStorage && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                // Request MANAGE_EXTERNAL_STORAGE
+                val intent = android.content.Intent(android.provider.Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
+                    data = android.net.Uri.parse("package:${requireContext().packageName}")
+                }
+                startActivity(intent)
+            } else {
+                requestPermissionLauncher.launch(permissions)
+            }
         }
     }
 

@@ -64,6 +64,19 @@ class MemoryBoosterFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.boostButton.setOnClickListener {
+            // Check KILL_BACKGROUND_PROCESSES permission before boosting
+            val hasKillPermission = android.content.pm.PackageManager.PERMISSION_GRANTED ==
+                requireContext().checkSelfPermission(android.Manifest.permission.KILL_BACKGROUND_PROCESSES)
+
+            if (!hasKillPermission) {
+                android.widget.Toast.makeText(
+                    requireContext(),
+                    "Memory boost permission not granted. Please grant it in settings.",
+                    android.widget.Toast.LENGTH_LONG
+                ).show()
+                return@setOnClickListener
+            }
+
             performHapticFeedback()
             viewModel.boostMemory()
         }

@@ -15,6 +15,7 @@ import com.smartcleaner.pro.utils.FeatureUnlockHelper
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 import javax.inject.Inject
+import android.util.Log
 
 @AndroidEntryPoint
 class SummaryFragment : Fragment() {
@@ -64,10 +65,12 @@ class SummaryFragment : Fragment() {
 
     private fun setupClickListeners() {
         binding.watchAdButton.setOnClickListener {
+            Log.d("SummaryFragment", "Watch ad button clicked for deep clean unlock")
             featureUnlockHelper.requestDeepCleanUnlock(requireActivity())
         }
 
         binding.doneButton.setOnClickListener {
+            Log.d("SummaryFragment", "Done button clicked - showing rewarded ad for deep clean")
             // Show rewarded ad for deep clean unlock
             showRewardedAdForDeepClean()
         }

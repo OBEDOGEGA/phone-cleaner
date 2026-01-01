@@ -54,6 +54,16 @@ class BoostRepositoryImpl @Inject constructor(
     }
 
     override suspend fun boostMemory(whitelistedPackages: Set<String>): Long {
+        // Check KILL_BACKGROUND_PROCESSES permission
+        val hasKillPermission = android.content.pm.PackageManager.PERMISSION_GRANTED ==
+            context.checkSelfPermission(android.Manifest.permission.KILL_BACKGROUND_PROCESSES)
+        android.util.Log.d("BoostRepositoryImpl", "KILL_BACKGROUND_PROCESSES granted: $hasKillPermission")
+
+        if (!hasKillPermission) {
+            android.util.Log.w("BoostRepositoryImpl", "KILL_BACKGROUND_PROCESSES not granted, cannot boost memory")
+            return 0L
+        }
+
         val runningProcesses = activityManager.runningAppProcesses ?: emptyList()
         var totalFreedMemory = 0L
         runningProcesses.forEach { process ->
@@ -64,7 +74,7 @@ class BoostRepositoryImpl @Inject constructor(
                     // Estimate freed memory (simplified)
                     totalFreedMemory += process.importance // rough estimate
                 } catch (e: Exception) {
-                    // Handle permission or other errors
+                    android.util.Log.e("BoostRepositoryImpl", "Error killing process: ${e.message}")
                 }
             }
         }

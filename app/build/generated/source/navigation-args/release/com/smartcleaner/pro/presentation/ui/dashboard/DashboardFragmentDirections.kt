@@ -11,5 +11,11 @@ public class DashboardFragmentDirections private constructor() {
 
     public fun actionDashboardFragmentToBatteryFragment(): NavDirections =
         ActionOnlyNavDirections(R.id.action_dashboardFragment_to_batteryFragment)
+
+    public fun actionDashboardFragmentToBoostFragment(): NavDirections =
+        ActionOnlyNavDirections(R.id.action_dashboardFragment_to_boostFragment)
+
+    public fun actionDashboardFragmentToAppListFragment(): NavDirections =
+        ActionOnlyNavDirections(R.id.action_dashboardFragment_to_appListFragment)
   }
 }

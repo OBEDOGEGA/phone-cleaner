@@ -47,27 +47,34 @@ class DashboardFragment : Fragment() {
     }
 
     private fun setupObservers() {
+        android.util.Log.d("DashboardFragment", "Setting up observers")
         viewModel.batteryLevel.observe(viewLifecycleOwner) { level ->
             binding.batteryProgress.setProgress(level, false)
             binding.batteryText.text = "$level%"
+            android.util.Log.d("DashboardFragment", "Battery level updated: $level%")
         }
 
         viewModel.storageUsed.observe(viewLifecycleOwner) { used ->
-            val percentage = (used.toFloat() / viewModel.totalStorage.value!! * 100).toInt()
+            val total = viewModel.totalStorage.value ?: 1L
+            val percentage = (used.toFloat() / total * 100).toInt()
             binding.storageProgress.setProgress(percentage, false)
             binding.storageText.text = "$percentage%"
+            android.util.Log.d("DashboardFragment", "Storage percentage: $percentage% (used: $used, total: $total)")
         }
 
         viewModel.todaySavings.observe(viewLifecycleOwner) { savings ->
             binding.todaySavingsValue.text = savings
+            android.util.Log.d("DashboardFragment", "Today savings updated: $savings")
         }
 
         viewModel.weeklyPerformance.observe(viewLifecycleOwner) { performance ->
             binding.weeklyPerformanceValue.text = performance
+            android.util.Log.d("DashboardFragment", "Weekly performance updated: $performance")
         }
 
         viewModel.batteryHealth.observe(viewLifecycleOwner) { health ->
             binding.batteryHealthValue.text = health
+            android.util.Log.d("DashboardFragment", "Battery health updated: $health")
         }
     }
 

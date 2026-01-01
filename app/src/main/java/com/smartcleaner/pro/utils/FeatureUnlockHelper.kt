@@ -67,17 +67,19 @@ class FeatureUnlockHelper @Inject constructor(
     fun unlockFeature(feature: String): Boolean {
         val currentTime = System.currentTimeMillis()
         val expirationTime = currentTime + UNLOCK_DURATION_MS
-        
+
+        Log.d(TAG, "Attempting to unlock feature: $feature")
+
         return try {
             with(sharedPreferences.edit()) {
                 putLong("${feature}_expiration", expirationTime)
                 apply()
             }
-            Log.d(TAG, "Feature $feature unlocked until $expirationTime")
+            Log.d(TAG, "Feature $feature unlocked successfully until $expirationTime")
             trackFeatureUsage(feature, "unlocked")
             true
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to unlock feature $feature: ${e.message}")
+            Log.e(TAG, "Failed to unlock feature $feature: ${e.message}", e)
             false
         }
     }
@@ -201,27 +203,35 @@ class FeatureUnlockHelper @Inject constructor(
 
     // Integration with AdManager for reward callbacks
     fun setupRewardedAdCallback(featureToUnlock: String) {
+        Log.d(TAG, "Setting up rewarded ad callback for feature: $featureToUnlock")
         adManager.onRewardedEarned = {
-            when (featureToUnlock) {
-                FEATURE_DEEP_CLEAN -> unlockDeepClean()
-                FEATURE_DUPLICATE_PHOTO_FINDER -> unlockDuplicatePhotoFinder()
-                FEATURE_PRIVACY_ERASER_PRO -> unlockPrivacyEraserPro()
-                FEATURE_CUSTOM_THEMES -> unlockCustomThemes()
-                FEATURE_CLOUD_BACKUP -> unlockCloudBackup()
-                else -> Log.w(TAG, "Unknown feature to unlock: $featureToUnlock")
-            }
+            Log.d(TAG, "Rewarded ad callback triggered for feature: $featureToUnlock")
+            unlockFeature(featureToUnlock)
             trackFeatureUsage(featureToUnlock, "rewarded_unlocked")
         }
     }
 
     // Method to request feature unlock via rewarded ad
     fun requestFeatureUnlockViaRewardedAd(feature: String, activity: android.app.Activity,
-                                         onAdClosed: (() -> Unit)? = null) {
+                                          onAdClosed: (() -> Unit)? = null) {
+        Log.d(TAG, "Requesting feature unlock via rewarded ad for: $feature")
+
+        // Check if rewarded ad is loaded
+        if (!adManager.isRewardedAdLoaded()) {
+            Log.w(TAG, "Rewarded ad not loaded for feature: $feature - cannot proceed")
+            // TODO: Show user-friendly message that ad is not ready
+            onAdClosed?.invoke()
+            return
+        }
+
         // Set up the callback for this specific feature
         setupRewardedAdCallback(feature)
 
         // Show the rewarded ad
-        adManager.showRewardedAd(activity, onAdClosed)
+        adManager.showRewardedAd(activity) {
+            Log.d(TAG, "Rewarded ad closed for feature: $feature")
+            onAdClosed?.invoke()
+        }
     }
 
     // Convenience method to request deep clean unlock via rewarded ad

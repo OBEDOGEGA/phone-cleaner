@@ -614,37 +614,37 @@ public final class DaggerSmartCleanerApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_smartcleaner_pro_presentation_viewmodel_BatteryViewModel = "com.smartcleaner.pro.presentation.viewmodel.BatteryViewModel";
-
       static String com_smartcleaner_pro_presentation_viewmodel_MemoryBoosterViewModel = "com.smartcleaner.pro.presentation.viewmodel.MemoryBoosterViewModel";
 
-      static String com_smartcleaner_pro_presentation_viewmodel_SettingsViewModel = "com.smartcleaner.pro.presentation.viewmodel.SettingsViewModel";
-
-      static String com_smartcleaner_pro_presentation_viewmodel_CleanerViewModel = "com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel";
-
-      static String com_smartcleaner_pro_presentation_viewmodel_DashboardViewModel = "com.smartcleaner.pro.presentation.viewmodel.DashboardViewModel";
+      static String com_smartcleaner_pro_presentation_viewmodel_BatteryViewModel = "com.smartcleaner.pro.presentation.viewmodel.BatteryViewModel";
 
       static String com_smartcleaner_pro_presentation_viewmodel_AppManagerViewModel = "com.smartcleaner.pro.presentation.viewmodel.AppManagerViewModel";
 
-      static String com_smartcleaner_pro_presentation_viewmodel_ToolsViewModel = "com.smartcleaner.pro.presentation.viewmodel.ToolsViewModel";
+      static String com_smartcleaner_pro_presentation_viewmodel_CleanerViewModel = "com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel";
 
-      @KeepFieldType
-      BatteryViewModel com_smartcleaner_pro_presentation_viewmodel_BatteryViewModel2;
+      static String com_smartcleaner_pro_presentation_viewmodel_SettingsViewModel = "com.smartcleaner.pro.presentation.viewmodel.SettingsViewModel";
+
+      static String com_smartcleaner_pro_presentation_viewmodel_DashboardViewModel = "com.smartcleaner.pro.presentation.viewmodel.DashboardViewModel";
+
+      static String com_smartcleaner_pro_presentation_viewmodel_ToolsViewModel = "com.smartcleaner.pro.presentation.viewmodel.ToolsViewModel";
 
       @KeepFieldType
       MemoryBoosterViewModel com_smartcleaner_pro_presentation_viewmodel_MemoryBoosterViewModel2;
 
       @KeepFieldType
-      SettingsViewModel com_smartcleaner_pro_presentation_viewmodel_SettingsViewModel2;
+      BatteryViewModel com_smartcleaner_pro_presentation_viewmodel_BatteryViewModel2;
+
+      @KeepFieldType
+      AppManagerViewModel com_smartcleaner_pro_presentation_viewmodel_AppManagerViewModel2;
 
       @KeepFieldType
       CleanerViewModel com_smartcleaner_pro_presentation_viewmodel_CleanerViewModel2;
 
       @KeepFieldType
-      DashboardViewModel com_smartcleaner_pro_presentation_viewmodel_DashboardViewModel2;
+      SettingsViewModel com_smartcleaner_pro_presentation_viewmodel_SettingsViewModel2;
 
       @KeepFieldType
-      AppManagerViewModel com_smartcleaner_pro_presentation_viewmodel_AppManagerViewModel2;
+      DashboardViewModel com_smartcleaner_pro_presentation_viewmodel_DashboardViewModel2;
 
       @KeepFieldType
       ToolsViewModel com_smartcleaner_pro_presentation_viewmodel_ToolsViewModel2;
@@ -718,40 +718,40 @@ public final class DaggerSmartCleanerApp_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_smartcleaner_pro_presentation_viewmodel_SettingsViewModel = "com.smartcleaner.pro.presentation.viewmodel.SettingsViewModel";
+      static String com_smartcleaner_pro_presentation_viewmodel_MemoryBoosterViewModel = "com.smartcleaner.pro.presentation.viewmodel.MemoryBoosterViewModel";
 
       static String com_smartcleaner_pro_presentation_viewmodel_ToolsViewModel = "com.smartcleaner.pro.presentation.viewmodel.ToolsViewModel";
 
-      static String com_smartcleaner_pro_presentation_viewmodel_MemoryBoosterViewModel = "com.smartcleaner.pro.presentation.viewmodel.MemoryBoosterViewModel";
-
-      static String com_smartcleaner_pro_presentation_viewmodel_CleanerViewModel = "com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel";
-
-      static String com_smartcleaner_pro_presentation_viewmodel_AppManagerViewModel = "com.smartcleaner.pro.presentation.viewmodel.AppManagerViewModel";
+      static String com_smartcleaner_pro_presentation_viewmodel_BatteryViewModel = "com.smartcleaner.pro.presentation.viewmodel.BatteryViewModel";
 
       static String com_smartcleaner_pro_presentation_viewmodel_DashboardViewModel = "com.smartcleaner.pro.presentation.viewmodel.DashboardViewModel";
 
-      static String com_smartcleaner_pro_presentation_viewmodel_BatteryViewModel = "com.smartcleaner.pro.presentation.viewmodel.BatteryViewModel";
+      static String com_smartcleaner_pro_presentation_viewmodel_SettingsViewModel = "com.smartcleaner.pro.presentation.viewmodel.SettingsViewModel";
 
-      @KeepFieldType
-      SettingsViewModel com_smartcleaner_pro_presentation_viewmodel_SettingsViewModel2;
+      static String com_smartcleaner_pro_presentation_viewmodel_AppManagerViewModel = "com.smartcleaner.pro.presentation.viewmodel.AppManagerViewModel";
 
-      @KeepFieldType
-      ToolsViewModel com_smartcleaner_pro_presentation_viewmodel_ToolsViewModel2;
+      static String com_smartcleaner_pro_presentation_viewmodel_CleanerViewModel = "com.smartcleaner.pro.presentation.viewmodel.CleanerViewModel";
 
       @KeepFieldType
       MemoryBoosterViewModel com_smartcleaner_pro_presentation_viewmodel_MemoryBoosterViewModel2;
 
       @KeepFieldType
-      CleanerViewModel com_smartcleaner_pro_presentation_viewmodel_CleanerViewModel2;
+      ToolsViewModel com_smartcleaner_pro_presentation_viewmodel_ToolsViewModel2;
 
       @KeepFieldType
-      AppManagerViewModel com_smartcleaner_pro_presentation_viewmodel_AppManagerViewModel2;
+      BatteryViewModel com_smartcleaner_pro_presentation_viewmodel_BatteryViewModel2;
 
       @KeepFieldType
       DashboardViewModel com_smartcleaner_pro_presentation_viewmodel_DashboardViewModel2;
 
       @KeepFieldType
-      BatteryViewModel com_smartcleaner_pro_presentation_viewmodel_BatteryViewModel2;
+      SettingsViewModel com_smartcleaner_pro_presentation_viewmodel_SettingsViewModel2;
+
+      @KeepFieldType
+      AppManagerViewModel com_smartcleaner_pro_presentation_viewmodel_AppManagerViewModel2;
+
+      @KeepFieldType
+      CleanerViewModel com_smartcleaner_pro_presentation_viewmodel_CleanerViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {

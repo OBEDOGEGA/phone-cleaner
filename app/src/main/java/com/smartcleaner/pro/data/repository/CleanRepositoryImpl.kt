@@ -30,6 +30,18 @@ class CleanRepositoryImpl @Inject constructor(
     override fun scanForJunk(): Flow<List<JunkItem>> = flow {
         val junkItems = mutableListOf<JunkItem>()
 
+        // Check MANAGE_EXTERNAL_STORAGE permission for Android 11+
+        val hasManageStorage = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            android.os.Environment.isExternalStorageManager()
+        } else {
+            true
+        }
+        android.util.Log.d("CleanRepositoryImpl", "MANAGE_EXTERNAL_STORAGE granted: $hasManageStorage")
+
+        if (!hasManageStorage) {
+            android.util.Log.w("CleanRepositoryImpl", "MANAGE_EXTERNAL_STORAGE not granted, scanning may fail")
+        }
+
         // Scan cache files
         junkItems.addAll(scanCacheFiles())
 
@@ -94,12 +106,17 @@ class CleanRepositoryImpl @Inject constructor(
     override suspend fun getTotalJunkSize(): Long = withContext(Dispatchers.IO) {
         var totalSize = 0L
 
-        // Calculate total size of all junk items
-        scanCacheFiles().forEach { totalSize += it.size }
-        scanResidualFiles().forEach { totalSize += it.size }
-        scanApkFiles().forEach { totalSize += it.size }
-        scanEmptyFolders().forEach { totalSize += it.size }
-        scanThumbnailCache().forEach { totalSize += it.size }
+        try {
+            // Calculate total size of all junk items
+            scanCacheFiles().forEach { totalSize += it.size }
+            scanResidualFiles().forEach { totalSize += it.size }
+            scanApkFiles().forEach { totalSize += it.size }
+            scanEmptyFolders().forEach { totalSize += it.size }
+            scanThumbnailCache().forEach { totalSize += it.size }
+            android.util.Log.d("CleanRepositoryImpl", "Total junk size calculated: $totalSize bytes")
+        } catch (e: Exception) {
+            android.util.Log.e("CleanRepositoryImpl", "Error calculating total junk size", e)
+        }
 
         totalSize
     }

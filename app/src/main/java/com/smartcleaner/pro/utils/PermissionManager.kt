@@ -34,9 +34,19 @@ class PermissionManager(private val context: Context) {
     }
 
     fun hasAllPermissions(): Boolean {
-        return REQUIRED_PERMISSIONS.all { permission ->
-            ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-        } && hasPackageUsageStatsPermission() && hasBatteryStatsPermission()
+        val regularPermissionsGranted = REQUIRED_PERMISSIONS.all { permission ->
+            if (permission == Manifest.permission.MANAGE_EXTERNAL_STORAGE) {
+                // Special check for MANAGE_EXTERNAL_STORAGE
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    android.os.Environment.isExternalStorageManager()
+                } else {
+                    ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+                }
+            } else {
+                ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+            }
+        }
+        return regularPermissionsGranted && hasPackageUsageStatsPermission() && hasBatteryStatsPermission()
     }
 
     fun hasPackageUsageStatsPermission(): Boolean {
@@ -77,11 +87,19 @@ class PermissionManager(private val context: Context) {
 
     fun requestPermissions(activity: Activity, launcher: ActivityResultLauncher<Array<String>>) {
         val missingPermissions = REQUIRED_PERMISSIONS.filter { permission ->
+            // Skip MANAGE_EXTERNAL_STORAGE as it needs special handling
+            permission != Manifest.permission.MANAGE_EXTERNAL_STORAGE &&
             ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED
         }.toTypedArray()
 
         if (missingPermissions.isNotEmpty()) {
             launcher.launch(missingPermissions)
+        }
+
+        // Handle MANAGE_EXTERNAL_STORAGE separately for Android 11+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R &&
+            !android.os.Environment.isExternalStorageManager()) {
+            requestManageExternalStoragePermission(activity)
         }
     }
 
@@ -98,6 +116,17 @@ class PermissionManager(private val context: Context) {
         if (!hasBatteryStatsPermission()) {
             showPermissionRationaleDialog(activity, "Battery Stats", "This permission is required to monitor battery usage.") {
                 val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.parse("package:${context.packageName}")
+                }
+                activity.startActivity(intent)
+            }
+        }
+    }
+
+    fun requestManageExternalStoragePermission(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && !android.os.Environment.isExternalStorageManager()) {
+            showPermissionRationaleDialog(activity, "All Files Access", "This permission is required to clean all files on your device.") {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION).apply {
                     data = Uri.parse("package:${context.packageName}")
                 }
                 activity.startActivity(intent)
