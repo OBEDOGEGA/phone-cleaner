@@ -66,7 +66,13 @@ class ToolsFragment : BaseFragment() {
         }
 
         binding.toolsRecyclerView.apply {
-            layoutManager = GridLayoutManager(requireContext(), 2)
+            val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+            gridLayoutManager.spanSizeLookup = object : androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return toolsAdapter.getSpanSize(position)
+                }
+            }
+            layoutManager = gridLayoutManager
             adapter = toolsAdapter
         }
 

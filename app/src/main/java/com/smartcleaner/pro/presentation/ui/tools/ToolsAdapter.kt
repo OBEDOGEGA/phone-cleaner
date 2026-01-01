@@ -1,5 +1,6 @@
 package com.smartcleaner.pro.presentation.ui.tools
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +35,14 @@ class ToolsAdapter(
         return when (getItem(position)) {
             is ToolItem.Tool -> VIEW_TYPE_TOOL
             is ToolItem.Ad -> VIEW_TYPE_AD
+        }
+    }
+
+    // Add this method to handle span size
+    fun getSpanSize(position: Int): Int {
+        return when (getItem(position)) {
+            is ToolItem.Tool -> 1
+            is ToolItem.Ad -> 2 // Ad spans both columns
         }
     }
 
@@ -104,8 +113,15 @@ class ToolsAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind() {
-            adManager.getNativeAd()?.let { nativeAd ->
+            Log.d("ToolsAdapter", "Binding ad view holder")
+            val nativeAd = adManager.getNativeAd()
+            if (nativeAd != null) {
+                Log.d("ToolsAdapter", "Native ad available, populating view")
                 adManager.populateNativeAdView(binding.nativeAdView, nativeAd)
+                binding.nativeAdView.visibility = View.VISIBLE
+            } else {
+                Log.d("ToolsAdapter", "Native ad not available")
+                binding.nativeAdView.visibility = View.GONE
             }
         }
     }

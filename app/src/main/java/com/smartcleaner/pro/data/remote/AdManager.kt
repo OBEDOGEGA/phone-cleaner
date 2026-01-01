@@ -343,11 +343,12 @@ class AdManager @Inject constructor(
 
     // Native Ad Methods
     private fun loadNativeAd() {
+        Log.d(TAG, "Loading native ad, current retry count: $nativeRetryCount")
         val adLoader = AdLoader.Builder(context, nativeAdUnitId)
             .forNativeAd { ad ->
                 nativeAd = ad
                 nativeRetryCount = 0
-                Log.d(TAG, "Native ad loaded")
+                Log.d(TAG, "Native ad loaded successfully")
             }
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(error: LoadAdError) {
@@ -356,11 +357,13 @@ class AdManager @Inject constructor(
                     if (nativeRetryCount < MAX_RETRIES) {
                         nativeRetryCount++
                         val delay = INITIAL_RETRY_DELAY_MS * (1L shl (nativeRetryCount - 1))
+                        Log.d(TAG, "Retrying native ad load in $delay ms")
                         CoroutineScope(Dispatchers.Main).launch {
                             kotlinx.coroutines.delay(delay)
                             loadNativeAd()
                         }
                     } else {
+                        Log.e(TAG, "Native ad failed to load after $MAX_RETRIES attempts")
                         nativeRetryCount = 0
                     }
                 }
@@ -463,6 +466,7 @@ class AdManager @Inject constructor(
     fun getNativeAd(): NativeAd? = nativeAd
 
     fun populateNativeAdView(nativeAdView: NativeAdView, nativeAd: NativeAd) {
+        Log.d(TAG, "Populating native ad view")
         // Track impression
         trackAdImpression(nativeAdUnitId, "shown")
 
@@ -475,6 +479,8 @@ class AdManager @Inject constructor(
         nativeAdView.callToActionView = nativeAdView.findViewById(R.id.ad_call_to_action)
         nativeAdView.iconView = nativeAdView.findViewById(R.id.ad_app_icon)
         nativeAdView.advertiserView = nativeAdView.findViewById(R.id.ad_advertiser)
+
+        Log.d(TAG, "Native ad assets - headline: ${nativeAd.headline}, body: ${nativeAd.body}, callToAction: ${nativeAd.callToAction}, advertiser: ${nativeAd.advertiser}")
 
         // Populate the ad assets
         (nativeAdView.headlineView as? TextView)?.text = nativeAd.headline
@@ -493,6 +499,7 @@ class AdManager @Inject constructor(
 
         // Set the native ad
         nativeAdView.setNativeAd(nativeAd)
+        Log.d(TAG, "Native ad view populated successfully")
     }
 
     // Cleanup
