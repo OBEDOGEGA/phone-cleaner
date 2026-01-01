@@ -40,9 +40,8 @@ class BatteryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         android.util.Log.d("BatteryFragment", "onViewCreated called")
 
-        // Temporarily disable everything to test navigation
-        // setupObservers()
-        // setupClickListeners()
+        setupObservers()
+        setupClickListeners()
         // loadBannerAd()
         // loadBatteryInfo()
     }
