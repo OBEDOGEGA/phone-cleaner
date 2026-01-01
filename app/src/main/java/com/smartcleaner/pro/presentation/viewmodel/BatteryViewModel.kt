@@ -37,17 +37,20 @@ class BatteryViewModel @Inject constructor(
     val isAutoSyncEnabled: LiveData<Boolean> = _isAutoSyncEnabled
 
     init {
+        android.util.Log.d("BatteryViewModel", "init called")
         loadBatteryInfo()
         loadSystemSettings()
     }
 
     fun loadBatteryInfo() {
+        android.util.Log.d("BatteryViewModel", "loadBatteryInfo called")
         val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         batteryIntent?.let {
             val level = it.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
             val scale = it.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
             val batteryPct = level * 100 / scale.toFloat()
             _batteryLevel.value = batteryPct.toInt()
+            android.util.Log.d("BatteryViewModel", "Battery level: $batteryPct%")
 
             val health = it.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN)
             _batteryHealth.value = when (health) {
@@ -59,25 +62,34 @@ class BatteryViewModel @Inject constructor(
                 BatteryManager.BATTERY_HEALTH_COLD -> "Cold"
                 else -> "Unknown"
             }
-        }
+            android.util.Log.d("BatteryViewModel", "Battery health: ${_batteryHealth.value}")
+        } ?: android.util.Log.w("BatteryViewModel", "Battery intent is null")
     }
 
     fun loadSystemSettings() {
-        // Load screen timeout
-        val screenTimeout = Settings.System.getInt(
-            context.contentResolver,
-            Settings.System.SCREEN_OFF_TIMEOUT,
-            30000
-        )
-        _screenTimeout.value = screenTimeout
+        android.util.Log.d("BatteryViewModel", "loadSystemSettings called")
+        try {
+            // Load screen timeout
+            val screenTimeout = Settings.System.getInt(
+                context.contentResolver,
+                Settings.System.SCREEN_OFF_TIMEOUT,
+                30000
+            )
+            _screenTimeout.value = screenTimeout
+            android.util.Log.d("BatteryViewModel", "Screen timeout: $screenTimeout")
 
-        // Load battery saver status
-        val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        _isBatterySaverEnabled.value = powerManager.isPowerSaveMode
+            // Load battery saver status
+            val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+            _isBatterySaverEnabled.value = powerManager.isPowerSaveMode
+            android.util.Log.d("BatteryViewModel", "Battery saver enabled: ${powerManager.isPowerSaveMode}")
 
-        // Load auto-sync status
-        val autoSync = ContentResolver.getMasterSyncAutomatically()
-        _isAutoSyncEnabled.value = autoSync
+            // Load auto-sync status
+            val autoSync = ContentResolver.getMasterSyncAutomatically()
+            _isAutoSyncEnabled.value = autoSync
+            android.util.Log.d("BatteryViewModel", "Auto sync enabled: $autoSync")
+        } catch (e: Exception) {
+            android.util.Log.e("BatteryViewModel", "Error loading system settings", e)
+        }
     }
 
     fun setBatterySaverEnabled(enabled: Boolean) {
