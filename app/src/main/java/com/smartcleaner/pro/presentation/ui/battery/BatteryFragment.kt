@@ -42,7 +42,7 @@ class BatteryFragment : Fragment() {
 
         setupObservers()
         setupClickListeners()
-        // loadBannerAd()
+        loadBannerAd()
         // loadBatteryInfo()
     }
 
